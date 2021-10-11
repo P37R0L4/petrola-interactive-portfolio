@@ -8,7 +8,7 @@ export function Flags() {
     <motion.div style={{ scale }}>
       <motion.div
         style={{
-          width: '15rem'
+          width: '15rem',
           scaleY: scrollYProgress,
         }}
       />
