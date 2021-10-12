@@ -22,7 +22,7 @@ export function Header({ isVisible }: IHeader) {
         </Button>
       </Link>
 
-      <HStack position="fixed" right={6}>
+      <HStack>
         <Link href="#">
           <Button size="small" p={1}>
             .work()

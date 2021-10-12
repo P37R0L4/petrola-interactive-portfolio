@@ -18,7 +18,6 @@ import {
   SlideFade,
   Fade,
   useColorMode,
-  ScaleFade,
 } from '@chakra-ui/react';
 import { useDisclosure } from '@chakra-ui/hooks';
 import { useEffect, useReducer, useState } from 'react';
@@ -27,7 +26,7 @@ import { TiArrowBack } from 'react-icons/ti';
 import { Lock, UnlockedScroll } from '../components/animated/lock';
 import { LogosContainer } from '../components/animated/LogosContainer';
 import { WrapBecameDeveloper } from '../components/animated/WrapBecameDeveloper';
-import { Flags } from '../components/animated/Flags';
+import ShowMoreMinions from '../components/animated/ShowMoreMinions';
 
 let lockWheel = true;
 let timer: any = null;
@@ -94,13 +93,12 @@ export default function Home() {
   }, [data]);
 
   useEffect(() => {
+    setColorMode('light');
     if (lockMore) {
       document.body.style.overflow = 'hidden';
     }
 
     const handleWeel = () => {
-      // console.log(evt.deltaY)
-
       if (lockMore) {
         if (lockWheel) {
           setLockLineAux(true);
@@ -122,12 +120,12 @@ export default function Home() {
         setScrollToShow([scrollToShow[0], true, false, false]);
       } else if (window.scrollY <= 950) {
         setScrollToShow([scrollToShow[0], false, false, false]);
-      } else if (window.scrollY > 2000 && window.scrollY < 3000) {
+      } else if (window.scrollY > 2000 && window.scrollY < 2600) {
         setScrollToShow([scrollToShow[0], scrollToShow[1], true, false]);
       } else if (window.scrollY < 2000 && window.scrollY > 950) {
         setScrollToShow([scrollToShow[0], scrollToShow[1], false, false]);
-      } else if (window.scrollY >= 3000) {
-        setScrollToShow([scrollToShow[0], scrollToShow[1], false, true]);
+      } else if (window.scrollY >= 2600) {
+        setScrollToShow([scrollToShow[0], scrollToShow[1], true, true]);
       }
     };
 
@@ -351,20 +349,24 @@ export default function Home() {
               position: 'absolute',
             }}
           >
-            <Text color="brand.100" fontSize={60} fontWeight="extrabold">
-              So in 2017, i became Developer!
-            </Text>
-
-            <Text color="gray.500" fontSize={18} mt={4}>
-              <Text
-                fontSize={30}
-                color="gray.400"
-              >{`<I joined a separate team />`}</Text>
-              <Text ml={5} mt={2} color="gray.400">
-                I start to develop the omnichannel's front-end in partnership
-                with the Comunix innovation team.
+            <SlideFade in={scrollToShow[2]} offsetY="30px" delay={0.5}>
+              <Text fontSize={60} fontWeight="extrabold">
+                So in 2017, i became Developer!
               </Text>
-            </Text>
+            </SlideFade>
+
+            <Fade in={scrollToShow[2]} delay={0.5}>
+              <Text color="gray.500" fontSize={18} mt={4}>
+                <Text
+                  fontSize={30}
+                  color="gray.400"
+                >{`<I joined a separate team />`}</Text>
+                <Text ml={5} mt={2} color="gray.400">
+                  I start to develop the omnichannel's front-end in partnership
+                  with the Comunix innovation team.
+                </Text>
+              </Text>
+            </Fade>
 
             <WrapBecameDeveloper isOpen={scrollToShow[2]} />
           </Flex>
@@ -378,18 +380,27 @@ export default function Home() {
          */}
         <VStack
           left="20%"
-          top="400vh"
+          top="380vh"
           position="absolute"
-          h="100vh"
+          h="50vh"
           alignItems="flex-start"
           color="brand.400"
           borderLeft="1px solid"
           px="4rem"
+          _after={{
+            content: '""',
+            position: 'fixed',
+            width: '100vw',
+            height: '15rem',
+            left: 0,
+            top: '410vh',
+            pointerEvents: 'none',
+            backgroundImage: `linear-gradient(to bottom,  rgba(26, 32, 44, 0),  rgba(26, 32, 44, 1) 50%)`,
+          }}
         >
           <Flex
             mt={-20}
             lineHeight={1}
-            // maxW="32rem"
             h="full"
             direction="column"
             _before={{
@@ -403,15 +414,15 @@ export default function Home() {
               position: 'absolute',
             }}
           >
-            <SlideFade in={scrollToShow[3]} offsetY="30px" delay={0.5}>
-              <Text color="brand.100" fontSize={60} fontWeight="extrabold">
+            <SlideFade in={scrollToShow[3]} offsetY="30px">
+              <Text fontSize={60} fontWeight="extrabold">
                 I love be a develop, my dream are work in another coutries, out
                 of Brazil.
               </Text>
             </SlideFade>
           </Flex>
 
-          <Flags />
+          {scrollToShow[3] && <ShowMoreMinions show={scrollToShow[3]} />}
         </VStack>
 
         {/***

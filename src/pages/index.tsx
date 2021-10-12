@@ -2,6 +2,7 @@ import { useRouter } from 'next/router';
 
 import { Center, Text, VStack } from '@chakra-ui/layout';
 import { Fade } from '@chakra-ui/transition';
+import { useColorMode } from '@chakra-ui/react';
 import { Progress } from '@chakra-ui/progress';
 
 import { useEffect, useState } from 'react';
@@ -11,7 +12,11 @@ export default function Index() {
   const [loading, setLoading] = useState(0);
   const router = useRouter();
 
+  const { setColorMode } = useColorMode();
+
   useEffect(() => {
+    setColorMode('light');
+
     setTimeout(() => {
       loading <= 100
         ? setLoading(loading + Math.floor(Math.random() * (20 - 1) + 1))

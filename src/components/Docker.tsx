@@ -5,15 +5,13 @@ import { Fade, SlideFade } from '@chakra-ui/transition';
 import {
   AiFillGithub,
   AiFillLinkedin,
-  AiOutlineChrome,
+  AiFillFacebook,
   AiOutlineWhatsApp,
+  AiFillTwitterCircle,
 } from 'react-icons/ai';
-import { GrDocumentPdf, GrDocumentPerformance } from 'react-icons/gr';
 import { TiArrowBack } from 'react-icons/ti';
-import { RiGamepadFill } from 'react-icons/ri';
 import Icon from '@chakra-ui/icon';
 import { useEffect, useState } from 'react';
-import { useColorModeValue } from '@chakra-ui/color-mode';
 
 const COLORS = [
   '#9B5DE5',
@@ -78,7 +76,7 @@ export function Docker() {
       left={!showDock ? '-10px' : 0}
     >
       <Fade in={showDock}>
-        <Box w={40} position="absolute" top={20} right="-12rem" lineHeight={1}>
+        <Box w={40} position="absolute" top={35} right="-12rem" lineHeight={1}>
           <Icon
             transform="rotate(-30deg)"
             ml={-10}
@@ -102,47 +100,34 @@ export function Docker() {
 
       <SlideFade in={isOpen} offsetX="20px">
         <VStack alignItems="flex-end" justifyContent="space-between">
-          <VStack
-            spacing={4}
-            borderBottom={`1px solid ${useColorModeValue('black', 'white')}`}
-            pb={6}
-          >
+          <VStack spacing={4}>
             <IconButton
               variant="ghost"
               size="lg"
               aria-label="first-doc"
-              color={useColorModeValue('black', 'white')}
-              icon={<GrDocumentPdf size={60} />}
-            />
-
-            <IconButton
-              variant="ghost"
-              size="lg"
-              aria-label="sec-doc"
-              color={useColorModeValue('black', 'white')}
-              icon={<GrDocumentPerformance size={60} />}
-            />
-          </VStack>
-
-          <VStack
-            spacing={4}
-            borderBottom={`1px solid ${useColorModeValue('black', 'white')}`}
-            pb={6}
-          >
-            <IconButton
-              variant="ghost"
-              size="lg"
-              aria-label="first-doc"
-              icon={<AiOutlineChrome size={60} />}
+              color="twitter.400"
+              icon={<AiFillTwitterCircle size={60} />}
             />
 
             <IconButton
               variant="ghost"
               size="lg"
               aria-label="first-doc"
-              color="whatsapp.400"
-              icon={<AiOutlineWhatsApp size={60} />}
+              icon={<AiFillFacebook size={60} />}
             />
+
+            <a
+              target="_blank"
+              href="https://api.whatsapp.com/send?phone=5561999381264&text=Hello%20I%20am%20a%20Recruiter!"
+            >
+              <IconButton
+                variant="ghost"
+                size="lg"
+                aria-label="first-doc"
+                color="whatsapp.400"
+                icon={<AiOutlineWhatsApp size={60} />}
+              />
+            </a>
 
             <a target="_blank" href="https://github.com/P37R0L4">
               <IconButton
@@ -165,15 +150,6 @@ export function Docker() {
                 icon={<AiFillLinkedin size={60} />}
               />
             </a>
-          </VStack>
-
-          <VStack spacing={4}>
-            <IconButton
-              variant="ghost"
-              size="lg"
-              aria-label="first-doc"
-              icon={<RiGamepadFill size={60} />}
-            />
           </VStack>
         </VStack>
       </SlideFade>
