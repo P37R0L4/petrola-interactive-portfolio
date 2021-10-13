@@ -43,6 +43,7 @@ import { ReactQueryDevtools } from 'react-query/devtools';
 import { Hydrate } from 'react-query/hydration';
 import { useState } from 'react';
 import { Header } from '../components/Header';
+import { AnimatePresence } from 'framer-motion';
 import { Docker } from '../components/Docker';
 
 function MyApp({ Component, pageProps }: AppProps) {
@@ -54,8 +55,12 @@ function MyApp({ Component, pageProps }: AppProps) {
       <QueryClientProvider client={queryClient}>
         <Hydrate state={pageProps.dehydratedState}>
           <Header isVisible={router.asPath !== '/'} />
-          <Component {...pageProps} />
           <Docker />
+
+          <AnimatePresence onExitComplete={() => window.scrollTo(0, 0)}>
+            <Component {...pageProps} key={router.asPath} />
+          </AnimatePresence>
+
           <ReactQueryDevtools />
         </Hydrate>
       </QueryClientProvider>

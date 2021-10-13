@@ -5,18 +5,18 @@ interface ILayout {
 }
 
 const variants = {
-  hidden: { opacity: 0, x: 0, y: 350 },
-  enter: { opacity: 1, x: 0, y: -20 },
-  exit: { opacity: 0, x: 0, y: 400 },
+  hidden: { opacity: 0, y: 400 },
+  enter: { opacity: 1, y: -20 },
+  exit: { opacity: 0, y: 100 },
 };
 
 export function Layout({ children }: ILayout) {
   return (
     <motion.main
-      variants={variants} // Pass the variant object into Framer Motion
       initial="hidden" // Set the initial state to variants.hidden
       animate="enter" // Animated state to variants.enter
       exit="exit" // Exit state (used later) to variants.exit
+      variants={variants} // Pass the variant object into Framer Motion
       transition={{ type: 'spring' }} // Set the transition to linear
     >
       {children}

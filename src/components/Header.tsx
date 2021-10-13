@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { Button, IconButton } from '@chakra-ui/button';
 import { HStack } from '@chakra-ui/layout';
 import { AiFillApple, AiFillGithub, AiFillLinkedin } from 'react-icons/ai';
+import NoScrollLink from './NoScrollLink';
 
 interface IHeader {
   isVisible: boolean;
@@ -11,12 +12,14 @@ export function Header({ isVisible }: IHeader) {
   return (
     <HStack
       display={!isVisible ? 'none' : 'flex'}
+      position="fixed"
       w="full"
       p={6}
       h="2.5rem"
       justifyContent="space-between"
+      zIndex={9999}
     >
-      <Link href="#">
+      <Link href="/home">
         <Button size="small" leftIcon={<AiFillApple size={20} />} p={1}>
           .p37r0l4()
         </Button>
@@ -29,11 +32,11 @@ export function Header({ isVisible }: IHeader) {
           </Button>
         </Link>
 
-        <Link href="#">
+        <NoScrollLink href="/profile">
           <Button size="small" p={1}>
             .who.iam()
           </Button>
-        </Link>
+        </NoScrollLink>
 
         <Link href="#">
           <Button size="small" p={1}>

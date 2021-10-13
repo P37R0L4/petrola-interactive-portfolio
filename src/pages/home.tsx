@@ -27,6 +27,7 @@ import { Lock, UnlockedScroll } from '../components/animated/lock';
 import { LogosContainer } from '../components/animated/LogosContainer';
 import { WrapBecameDeveloper } from '../components/animated/WrapBecameDeveloper';
 import ShowMoreMinions from '../components/animated/ShowMoreMinions';
+import { useRouter } from 'next/router';
 
 let lockWheel = true;
 let timer: any = null;
@@ -37,6 +38,7 @@ export default function Home() {
   const [_, forceUpdate] = useReducer((x) => x + 1, 0);
 
   const query = useQueryClient();
+  const { asPath } = useRouter();
 
   const [nameRecruiter, setNameRecruiter] = useState('');
   const [lockMore, setLockMore] = useState(true);
@@ -88,12 +90,12 @@ export default function Home() {
   };
 
   useEffect(() => {
-    setColorMode('light');
     setQueryPrefetched(data);
   }, [data]);
 
   useEffect(() => {
     setColorMode('light');
+
     if (lockMore) {
       document.body.style.overflow = 'hidden';
     }
@@ -109,8 +111,6 @@ export default function Home() {
     };
 
     const handScroll = () => {
-      console.log('scroll', window.scrollY);
-
       /**
        *
        *
@@ -138,14 +138,14 @@ export default function Home() {
       window.removeEventListener('wheel', handleWeel);
       window.removeEventListener('scroll', handScroll);
     };
-  }, []);
+  }, [asPath]);
 
   return (
     <>
       <Layout>
         <VStack
-          left="20%"
-          top={350}
+          left="20vw"
+          top={420}
           position="absolute"
           h="150vh"
           alignItems="flex-start"
@@ -156,7 +156,7 @@ export default function Home() {
           <Flex
             mt={-20}
             lineHeight={1}
-            maxW="32rem"
+            maxW="34rem"
             h="full"
             direction="column"
             _before={{
@@ -173,8 +173,8 @@ export default function Home() {
             <Text
               color={useColorModeValue('black', 'white')}
               fontWeight="medium"
-              fontSize={18}
-              mt={10}
+              fontSize={22}
+              mb={2}
             >
               <span style={{ color: '#9B5DE5' }}>new </span>p37r0l4()
               <span style={{ color: '#F15BB5' }}>
@@ -193,25 +193,15 @@ export default function Home() {
               </Text>
             </SlideFade>
 
-            <Text color="gray.500" fontSize={18} mt={4}>
-              I'm a Front-end Developer, this is my portfolio.&nbsp;
-              <span
-                style={{
-                  color: '#F15BB5',
-                  fontWeight: 'bold',
-                }}
-              >
-                {queryPrefetched?.length}
-              </span>{' '}
-              another persons was visited this page. So if you want to give me a
-              grade too, say me your name.
-              <Icon
-                transform="rotate(90deg) scaleX(-1)"
-                mb={-7}
-                fontSize={50}
-                as={TiArrowBack}
-                color={lockMore && lockLineAux ? 'red.400' : 'brand.200'}
-              />
+            <Text fontSize={18} mt={8}>
+              <Text w="40rem" fontSize={30} color="gray.400">
+                {`<I'm a Front-end Developer, this is my portfolio />`}
+              </Text>
+
+              <Text ml={5} mt={2} fontSize={18} color="gray.400">
+                I have {queryPrefetched?.length} visits, say me your name, and
+                give me a grade too!
+              </Text>
             </Text>
 
             <FormControl>
@@ -416,7 +406,7 @@ export default function Home() {
           >
             <SlideFade in={scrollToShow[3]} offsetY="30px">
               <Text fontSize={60} fontWeight="extrabold">
-                I love be a develop, my dream are work in another coutries, out
+                I love be a develop, my dream is work in another coutries, out
                 of Brazil.
               </Text>
             </SlideFade>

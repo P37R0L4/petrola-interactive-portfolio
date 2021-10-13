@@ -12,6 +12,8 @@ import {
 import { TiArrowBack } from 'react-icons/ti';
 import Icon from '@chakra-ui/icon';
 import { useEffect, useState } from 'react';
+import { useColorModeValue, useColorMode } from '@chakra-ui/color-mode';
+import { useRouter } from 'next/router';
 
 const COLORS = [
   '#9B5DE5',
@@ -23,12 +25,15 @@ const COLORS = [
 ];
 
 export function Docker() {
-  const { isOpen, onClose, onOpen } = useDisclosure();
+  const { onClose, onOpen } = useDisclosure();
   const [scroll, setScroll] = useState(0);
   const [showDock, setShowDock] = useState(true);
   const [dockColor, setDockColor] = useState(
     COLORS[Math.floor(Math.random() * (5 - 0) + 0)]
   );
+
+  const router = useRouter();
+  const { colorMode } = useColorMode();
 
   useEffect(() => {
     let timer: any = null;
@@ -67,16 +72,32 @@ export function Docker() {
   return (
     <Center
       position="fixed"
-      h="full"
-      px={6}
+      h="100vh"
+      display={router.asPath !== '/' ? 'flex' : 'none'}
       onMouseEnter={() => onOpen()}
       onMouseLeave={() => onClose()}
-      borderLeft={`10px solid ${dockColor}`}
-      transitionDuration="0.6s"
-      left={!showDock ? '-10px' : 0}
+      zIndex={999}
+      _before={{
+        content: '""',
+        width: '8rem',
+        height: 'full',
+        left: 0,
+        position: 'absolute',
+        pointerEvents: 'none',
+        backgroundImage:
+          colorMode === 'dark'
+            ? `linear-gradient(to left,  rgba(26, 32, 44, 0),  rgba(26, 32, 44, 1) 50%)`
+            : `linear-gradient(to left,  rgba(255,255,255, 0),  rgba(255,255,255, 1) 50%)`,
+      }}
     >
       <Fade in={showDock}>
-        <Box w={40} position="absolute" top={35} right="-12rem" lineHeight={1}>
+        <Box
+          w={40}
+          position="absolute"
+          top="8rem"
+          right="-12rem"
+          lineHeight={1}
+        >
           <Icon
             transform="rotate(-30deg)"
             ml={-10}
@@ -85,74 +106,76 @@ export function Docker() {
             as={TiArrowBack}
           />
           <Text fontSize={30} fontWeight="extrabold">
-            Here <br />
-            have a{' '}
+            My <br />
+            Social{' '}
             <span
               style={{
                 color: dockColor,
               }}
             >
-              dock!
+              Medias!
             </span>
           </Text>
         </Box>
       </Fade>
 
-      <SlideFade in={isOpen} offsetX="20px">
-        <VStack alignItems="flex-end" justifyContent="space-between">
-          <VStack spacing={4}>
-            <IconButton
-              variant="ghost"
-              size="lg"
-              aria-label="first-doc"
-              color="twitter.400"
-              icon={<AiFillTwitterCircle size={60} />}
-            />
+      <VStack
+        py={4}
+        px={2}
+        alignItems="flex-end"
+        spacing={4}
+        justifyContent="space-between"
+      >
+        <IconButton
+          variant="ghost"
+          size="lg"
+          aria-label="first-doc"
+          color="twitter.400"
+          icon={<AiFillTwitterCircle size={60} />}
+        />
 
-            <IconButton
-              variant="ghost"
-              size="lg"
-              aria-label="first-doc"
-              icon={<AiFillFacebook size={60} />}
-            />
+        <IconButton
+          variant="ghost"
+          size="lg"
+          aria-label="first-doc"
+          icon={<AiFillFacebook size={60} />}
+        />
 
-            <a
-              target="_blank"
-              href="https://api.whatsapp.com/send?phone=5561999381264&text=Hello%20I%20am%20a%20Recruiter!"
-            >
-              <IconButton
-                variant="ghost"
-                size="lg"
-                aria-label="first-doc"
-                color="whatsapp.400"
-                icon={<AiOutlineWhatsApp size={60} />}
-              />
-            </a>
+        <a
+          target="_blank"
+          href="https://api.whatsapp.com/send?phone=5561999381264&text=Hello%20I%20am%20a%20Recruiter!"
+        >
+          <IconButton
+            variant="ghost"
+            size="lg"
+            aria-label="first-doc"
+            color="whatsapp.400"
+            icon={<AiOutlineWhatsApp size={60} />}
+          />
+        </a>
 
-            <a target="_blank" href="https://github.com/P37R0L4">
-              <IconButton
-                variant="ghost"
-                size="lg"
-                aria-label="first-doc"
-                icon={<AiFillGithub size={60} />}
-              />
-            </a>
+        <a target="_blank" href="https://github.com/P37R0L4">
+          <IconButton
+            variant="ghost"
+            size="lg"
+            aria-label="first-doc"
+            icon={<AiFillGithub size={60} />}
+          />
+        </a>
 
-            <a
-              target="_blank"
-              href="https://www.linkedin.com/in/lucas-henrique-novais-de-araujo-petrola-559262123/"
-            >
-              <IconButton
-                variant="ghost"
-                size="lg"
-                aria-label="first-doc"
-                color="linkedin.600"
-                icon={<AiFillLinkedin size={60} />}
-              />
-            </a>
-          </VStack>
-        </VStack>
-      </SlideFade>
+        <a
+          target="_blank"
+          href="https://www.linkedin.com/in/lucas-henrique-novais-de-araujo-petrola-559262123/"
+        >
+          <IconButton
+            variant="ghost"
+            size="lg"
+            aria-label="first-doc"
+            color="linkedin.600"
+            icon={<AiFillLinkedin size={60} />}
+          />
+        </a>
+      </VStack>
     </Center>
   );
 }

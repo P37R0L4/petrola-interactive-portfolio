@@ -17,6 +17,7 @@ import { VscOctoface } from 'react-icons/vsc';
 import { MdCardTravel } from 'react-icons/md';
 
 import { useEffect } from 'react';
+import NoScrollLink from '../NoScrollLink';
 
 interface IShowMoreMinions {
   show: boolean;
@@ -129,9 +130,11 @@ export default function ShowMoreMinions({ show }: IShowMoreMinions) {
                 My Hobbies
               </Button>
 
-              <Button leftIcon={<ImProfile />} size="lg">
-                Who i'am
-              </Button>
+              <NoScrollLink href="/profile" scroll={false}>
+                <Button leftIcon={<ImProfile />} size="lg">
+                  Who i'am
+                </Button>
+              </NoScrollLink>
 
               <Button leftIcon={<MdCardTravel />} size="lg">
                 Who Visited
