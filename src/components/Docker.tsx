@@ -77,18 +77,6 @@ export function Docker() {
       onMouseEnter={() => onOpen()}
       onMouseLeave={() => onClose()}
       zIndex={999}
-      _before={{
-        content: '""',
-        width: '8rem',
-        height: 'full',
-        left: 0,
-        position: 'absolute',
-        pointerEvents: 'none',
-        backgroundImage:
-          colorMode === 'dark'
-            ? `linear-gradient(to left,  rgba(26, 32, 44, 0),  rgba(26, 32, 44, 1) 50%)`
-            : `linear-gradient(to left,  rgba(255,255,255, 0),  rgba(255,255,255, 1) 50%)`,
-      }}
     >
       <Fade in={showDock}>
         <Box
@@ -97,6 +85,9 @@ export function Docker() {
           top="8rem"
           right="-12rem"
           lineHeight={1}
+          bg={useColorModeValue('black', 'gray.700')}
+          p={2}
+          color="white"
         >
           <Icon
             transform="rotate(-30deg)"
@@ -104,6 +95,7 @@ export function Docker() {
             mb={-3}
             fontSize={50}
             as={TiArrowBack}
+            color={dockColor}
           />
           <Text fontSize={30} fontWeight="extrabold">
             My <br />
@@ -122,20 +114,22 @@ export function Docker() {
       <VStack
         py={4}
         px={2}
+        spacing={0}
         alignItems="flex-end"
-        spacing={4}
         justifyContent="space-between"
+        background={dockColor}
       >
         <IconButton
-          variant="ghost"
+          variant="link"
+          color="white"
           size="lg"
           aria-label="first-doc"
-          color="twitter.400"
           icon={<AiFillTwitterCircle size={60} />}
         />
 
         <IconButton
-          variant="ghost"
+          variant="link"
+          color="white"
           size="lg"
           aria-label="first-doc"
           icon={<AiFillFacebook size={60} />}
@@ -146,17 +140,18 @@ export function Docker() {
           href="https://api.whatsapp.com/send?phone=5561999381264&text=Hello%20I%20am%20a%20Recruiter!"
         >
           <IconButton
-            variant="ghost"
+            variant="link"
+            color="white"
             size="lg"
             aria-label="first-doc"
-            color="whatsapp.400"
             icon={<AiOutlineWhatsApp size={60} />}
           />
         </a>
 
         <a target="_blank" href="https://github.com/P37R0L4">
           <IconButton
-            variant="ghost"
+            variant="link"
+            color="white"
             size="lg"
             aria-label="first-doc"
             icon={<AiFillGithub size={60} />}
@@ -168,10 +163,10 @@ export function Docker() {
           href="https://www.linkedin.com/in/lucas-henrique-novais-de-araujo-petrola-559262123/"
         >
           <IconButton
-            variant="ghost"
+            variant="link"
             size="lg"
             aria-label="first-doc"
-            color="linkedin.600"
+            color="white"
             icon={<AiFillLinkedin size={60} />}
           />
         </a>

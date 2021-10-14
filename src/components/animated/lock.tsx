@@ -1,11 +1,12 @@
 import Icon from '@chakra-ui/icon';
 import { AiFillLock } from 'react-icons/ai';
-import { Flex, Text, ScaleFade } from '@chakra-ui/react';
-import { TiArrowBack } from 'react-icons/ti';
+import { Flex, Text, ScaleFade, useColorModeValue } from '@chakra-ui/react';
+import { TiArrowBack, TiArrowForward } from 'react-icons/ti';
 
 interface LockProps {
   locked: boolean;
   lockLineAux?: boolean;
+  orietation?: 'horizontal' | 'vertical';
 }
 
 export function Lock({ locked, lockLineAux }: LockProps) {
@@ -24,20 +25,34 @@ export function Lock({ locked, lockLineAux }: LockProps) {
   );
 }
 
-export function UnlockedScroll({ locked }: LockProps) {
+export function UnlockedScroll({ locked, orietation = 'vertical' }: LockProps) {
   return (
     <Flex right={5} bottom={70} position="fixed" w="10rem">
       <ScaleFade in={locked} initialScale={0.6}>
         <Flex lineHeight={0.9} alignItems="flex-end">
-          <Text fontSize={30} fontWeight="extrabold" textAlign="right">
-            Now u can Scroll
+          <Text
+            bg={useColorModeValue('black', 'gray.700')}
+            color="white"
+            p={2}
+            w="8rem"
+            h="8rem"
+            fontSize={30}
+            fontWeight="extrabold"
+            textAlign="right"
+          >
+            Now u can <span style={{ color: '#F15BB5' }}> Scroll</span>
           </Text>
 
-          <Icon
-            transform="rotate(90deg) scaleX(-1)"
-            fontSize={50}
-            as={TiArrowBack}
-          />
+          {orietation === 'vertical' ? (
+            <Icon
+              transform="rotate(90deg) scaleX(-1)"
+              fontSize={50}
+              color="brand.200"
+              as={TiArrowBack}
+            />
+          ) : (
+            <Icon fontSize={50} color="brand.200" as={TiArrowForward} />
+          )}
         </Flex>
       </ScaleFade>
     </Flex>

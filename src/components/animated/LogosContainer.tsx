@@ -24,7 +24,7 @@ export function LogosContainer({ show }: ILogosContainer) {
   } as MotionStyle;
 
   return (
-    <Box w="full" h="full">
+    <Box mt="5rem" w="full" h="full">
       <Tooltip
         p={5}
         rounded={10}

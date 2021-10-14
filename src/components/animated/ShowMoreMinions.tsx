@@ -32,7 +32,7 @@ export default function ShowMoreMinions({ show }: IShowMoreMinions) {
   useEffect(() => {
     controls.start({
       x: show ? '100vw' : 0,
-      transition: { duration: show ? 6 : 0 },
+      transition: { duration: show ? 5 : 0 },
     });
 
     controlBalls.start({

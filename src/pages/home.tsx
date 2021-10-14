@@ -11,23 +11,21 @@ import {
   Text,
   FormControl,
   Input,
-  useColorModeValue,
   Button,
   HStack,
-  Icon,
   SlideFade,
-  Fade,
   useColorMode,
 } from '@chakra-ui/react';
 import { useDisclosure } from '@chakra-ui/hooks';
 import { useEffect, useReducer, useState } from 'react';
-import { TiArrowBack } from 'react-icons/ti';
 
 import { Lock, UnlockedScroll } from '../components/animated/lock';
 import { LogosContainer } from '../components/animated/LogosContainer';
 import { WrapBecameDeveloper } from '../components/animated/WrapBecameDeveloper';
 import ShowMoreMinions from '../components/animated/ShowMoreMinions';
 import { useRouter } from 'next/router';
+import { TitleLikeCode } from '../components/TitleLikecode';
+import { TitleLikeFunction } from '../components/TitleLikeFunction';
 
 let lockWheel = true;
 let timer: any = null;
@@ -91,6 +89,7 @@ export default function Home() {
 
   useEffect(() => {
     setQueryPrefetched(data);
+    setColorMode('light');
   }, [data]);
 
   useEffect(() => {
@@ -170,21 +169,10 @@ export default function Home() {
               position: 'absolute',
             }}
           >
-            <Text
-              color={useColorModeValue('black', 'white')}
-              fontWeight="medium"
-              fontSize={22}
-              mb={2}
-            >
-              <span style={{ color: '#9B5DE5' }}>new </span>p37r0l4()
-              <span style={{ color: '#F15BB5' }}>
-                .start(
-                <span style={{ color: useColorModeValue('black', 'white') }}>
-                  {nameRecruiter !== '' ? `"${nameRecruiter}"` : 'null'}
-                </span>
-                )
-              </span>
-            </Text>
+            <TitleLikeFunction
+              nameRecruiter={nameRecruiter}
+              nameFunction="start"
+            />
 
             <SlideFade in={changeName} offsetY="20px">
               <Text color="brand.100" fontSize={60} fontWeight="extrabold">
@@ -193,19 +181,17 @@ export default function Home() {
               </Text>
             </SlideFade>
 
-            <Text fontSize={18} mt={8}>
-              <Text w="40rem" fontSize={30} color="gray.400">
-                {`<I'm a Front-end Developer, this is my portfolio />`}
-              </Text>
+            <Text w="40rem" mt={4} fontSize={30} color="gray.400">
+              {`<I'm a Front-end Developer, this is my portfolio />`}
+            </Text>
 
-              <Text ml={5} mt={2} fontSize={18} color="gray.400">
-                I have {queryPrefetched?.length} visits, say me your name, and
-                give me a grade too!
-              </Text>
+            <Text ml={5} mt={2} fontSize={18} color="gray.400">
+              I have {queryPrefetched?.length} visits, say me your name, and
+              give me a grade too!
             </Text>
 
             <FormControl>
-              <HStack py={10}>
+              <HStack py={8}>
                 <Input
                   onChange={(e) => setNameRecruiter(e.target.value)}
                   size="lg"
@@ -283,24 +269,14 @@ export default function Home() {
              *
              *  First apresentation
              */}
-            <SlideFade in={scrollToShow[1]} offsetY="30px" delay={0.5}>
-              <Text color="brand.100" fontSize={60} fontWeight="extrabold">
-                I Start my carreer in 2015 at Comunix Tecnologia.
-              </Text>
-            </SlideFade>
-
-            <Fade in={scrollToShow[1]} delay={0.7}>
-              <Text color="gray.500" fontSize={18} mt={4} mb="7rem">
-                <Text
-                  fontSize={30}
-                  color="gray.400"
-                >{`<I was technical support />`}</Text>
-                <Text ml={5} mt={2} color="gray.400">
-                  I fixed computers and the network. I solved tickets and served
-                  customers
-                </Text>
-              </Text>
-            </Fade>
+            <TitleLikeCode
+              color="brand.100"
+              show={scrollToShow[1]}
+              title="I Start my carreer in 2015 at Comunix Tecnologia."
+              subtitle="<I was technical support />"
+              text="I fixed computers and the network. I solved tickets and served
+              customers"
+            />
 
             <LogosContainer show={scrollToShow[1]} />
           </Flex>
@@ -325,7 +301,6 @@ export default function Home() {
           <Flex
             mt={-20}
             lineHeight={1}
-            // maxW="32rem"
             h="full"
             direction="column"
             _before={{
@@ -339,24 +314,14 @@ export default function Home() {
               position: 'absolute',
             }}
           >
-            <SlideFade in={scrollToShow[2]} offsetY="30px" delay={0.5}>
-              <Text fontSize={60} fontWeight="extrabold">
-                So in 2017, i became Developer!
-              </Text>
-            </SlideFade>
-
-            <Fade in={scrollToShow[2]} delay={0.5}>
-              <Text color="gray.500" fontSize={18} mt={4}>
-                <Text
-                  fontSize={30}
-                  color="gray.400"
-                >{`<I joined a separate team />`}</Text>
-                <Text ml={5} mt={2} color="gray.400">
-                  I start to develop the omnichannel's front-end in partnership
-                  with the Comunix innovation team.
-                </Text>
-              </Text>
-            </Fade>
+            <TitleLikeCode
+              color="brand.300"
+              show={scrollToShow[2]}
+              title="So in 2017, i became Developer!"
+              subtitle="<I joined a separate team />"
+              text="I start to develop the omnichannel's front-end in partnership with
+              the Comunix innovation team."
+            />
 
             <WrapBecameDeveloper isOpen={scrollToShow[2]} />
           </Flex>
