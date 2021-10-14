@@ -17,7 +17,7 @@ import {
   useColorMode,
 } from '@chakra-ui/react';
 import { useDisclosure } from '@chakra-ui/hooks';
-import { useEffect, useReducer, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
 import { Lock, UnlockedScroll } from '../components/animated/lock';
 import { LogosContainer } from '../components/animated/LogosContainer';
@@ -26,6 +26,7 @@ import ShowMoreMinions from '../components/animated/ShowMoreMinions';
 import { useRouter } from 'next/router';
 import { TitleLikeCode } from '../components/TitleLikecode';
 import { TitleLikeFunction } from '../components/TitleLikeFunction';
+import { RecruitersContext } from '../contexts/RecruitersContextProvider';
 
 let lockWheel = true;
 let timer: any = null;
@@ -33,32 +34,32 @@ let timer: any = null;
 export default function Home() {
   const { data } = useAccessData();
   const [queryPrefetched, setQueryPrefetched] = useState(data);
-  const [_, forceUpdate] = useReducer((x) => x + 1, 0);
+
+  const { setColorMode } = useColorMode();
+  const { setState, state } = useContext(RecruitersContext);
 
   const query = useQueryClient();
   const { asPath } = useRouter();
 
   const [nameRecruiter, setNameRecruiter] = useState('');
-  const [lockMore, setLockMore] = useState(true);
+
   const {
     isOpen: changeName,
     onClose: closeChangeName,
     onOpen: openChangeName,
   } = useDisclosure();
   const [lockLineAux, setLockLineAux] = useState(false);
-  const [logged, setLogged] = useState(false);
+  const [auxLoggedAnimation, setauxLoggedAnimation] = useState(false);
   const [scrollToShow, setScrollToShow] = useState([true, false, false, false]);
-
-  const { setColorMode } = useColorMode();
 
   useEffect(() => {
     closeChangeName();
 
     setTimeout(() => {
       openChangeName();
-      !lockMore && setLogged(true);
+      state.name !== '' && setauxLoggedAnimation(true);
     }, 500);
-  }, [lockMore]);
+  }, [state.name]);
 
   useEffect(() => {
     scrollToShow[2] ? setColorMode('dark') : setColorMode('light');
@@ -74,13 +75,14 @@ export default function Home() {
 
   const unlockMore = async () => {
     if (nameRecruiter !== '') {
-      setLockMore(false);
       document.body.style.overflow = 'auto';
+
+      // Save the name
+      setState({ name: nameRecruiter });
 
       await fetch(`/api/insert/${nameRecruiter}`);
       query.invalidateQueries('getAccessData');
       setQueryPrefetched(data);
-      forceUpdate();
     } else {
       setLockLineAux(true);
       debounceLock();
@@ -95,12 +97,14 @@ export default function Home() {
   useEffect(() => {
     setColorMode('light');
 
-    if (lockMore) {
+    if (state.name !== '') {
+      document.body.style.overflow = 'auto';
+    } else {
       document.body.style.overflow = 'hidden';
     }
 
     const handleWeel = () => {
-      if (lockMore) {
+      if (state.name === '') {
         if (lockWheel) {
           setLockLineAux(true);
         }
@@ -176,8 +180,14 @@ export default function Home() {
 
             <SlideFade in={changeName} offsetY="20px">
               <Text color="brand.100" fontSize={60} fontWeight="extrabold">
-                Hello {logged ? nameRecruiter.split(' ')[0] : 'recruiter'},{' '}
-                {logged ? `let's go on!` : 'Alright!?'}
+                Hello{' '}
+                {auxLoggedAnimation && state.name
+                  ? state.name.split(' ')[0]
+                  : 'recruiter'}
+                ,{' '}
+                {auxLoggedAnimation && state.name
+                  ? `let's go on!`
+                  : 'Alright!?'}
               </Text>
             </SlideFade>
 
@@ -204,23 +214,29 @@ export default function Home() {
                       ? `Write your name here, i'm obrigatory`
                       : 'Your name'
                   }
-                  border={lockMore && lockLineAux ? ' 1px solid' : '1px solid'}
+                  border={
+                    state.name === '' && lockLineAux
+                      ? ' 1px solid'
+                      : '1px solid'
+                  }
                   borderColor={
-                    lockMore && lockLineAux ? 'red.400' : 'brand.100'
+                    state.name === '' && lockLineAux ? 'red.400' : 'brand.100'
                   }
                   focusBorderColor={
-                    lockMore && lockLineAux ? 'red.400' : 'brand.100'
+                    state.name === '' && lockLineAux ? 'red.400' : 'brand.100'
                   }
-                  disabled={logged}
+                  disabled={auxLoggedAnimation && state.name !== ''}
                 />
                 <Button
                   onClick={() => {
                     unlockMore();
                   }}
                   size="lg"
-                  bg={lockMore && lockLineAux ? 'red.400' : 'brand.200'}
+                  bg={
+                    state.name === '' && lockLineAux ? 'red.400' : 'brand.200'
+                  }
                   colorScheme="brand"
-                  disabled={logged}
+                  disabled={auxLoggedAnimation && state.name !== ''}
                 >
                   SEND
                 </Button>
@@ -229,7 +245,7 @@ export default function Home() {
           </Flex>
         </VStack>
 
-        <Lock locked={lockMore} lockLineAux={lockLineAux} />
+        <Lock locked={state.name === ''} lockLineAux={lockLineAux} />
 
         {/**
          *
@@ -387,7 +403,7 @@ export default function Home() {
       </Layout>
 
       <UnlockedScroll
-        locked={!lockMore && !scrollToShow[1] && !scrollToShow[2]}
+        locked={state.name !== '' && !scrollToShow[1] && !scrollToShow[2]}
       />
     </>
   );

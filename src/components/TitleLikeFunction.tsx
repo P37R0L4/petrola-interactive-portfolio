@@ -1,5 +1,7 @@
 import { useColorModeValue } from '@chakra-ui/color-mode';
 import { Text } from '@chakra-ui/layout';
+import { useContext } from 'react';
+import { RecruitersContext } from '../contexts/RecruitersContextProvider';
 
 interface ITitleLikeFunction {
   nameRecruiter?: string;
@@ -10,6 +12,8 @@ export function TitleLikeFunction({
   nameRecruiter = '',
   nameFunction,
 }: ITitleLikeFunction) {
+  const { state } = useContext(RecruitersContext);
+
   return (
     <Text
       color={useColorModeValue('black', 'white')}
@@ -21,7 +25,11 @@ export function TitleLikeFunction({
       <span style={{ color: '#F15BB5' }}>
         .{nameFunction}(
         <span style={{ color: useColorModeValue('black', 'white') }}>
-          {nameRecruiter !== '' ? `"${nameRecruiter}"` : 'null'}
+          {state.name === ''
+            ? nameRecruiter !== ''
+              ? `"${nameRecruiter}"`
+              : 'null'
+            : `"${state.name}"`}
         </span>
         )
       </span>

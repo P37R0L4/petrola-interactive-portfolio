@@ -45,6 +45,7 @@ import { useState } from 'react';
 import { Header } from '../components/Header';
 import { AnimatePresence } from 'framer-motion';
 import { Docker } from '../components/Docker';
+import { RecruitersContextProvider } from '../contexts/RecruitersContextProvider';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [queryClient] = useState(() => new QueryClient());
@@ -54,14 +55,16 @@ function MyApp({ Component, pageProps }: AppProps) {
     <ChakraProvider theme={theme}>
       <QueryClientProvider client={queryClient}>
         <Hydrate state={pageProps.dehydratedState}>
-          <Header isVisible={router.asPath !== '/'} />
-          <Docker />
+          <RecruitersContextProvider>
+            <Header isVisible={router.asPath !== '/'} />
+            <Docker />
 
-          <AnimatePresence onExitComplete={() => window.scrollTo(0, 0)}>
-            <Component {...pageProps} key={router.asPath} />
-          </AnimatePresence>
+            <AnimatePresence onExitComplete={() => window.scrollTo(0, 0)}>
+              <Component {...pageProps} key={router.asPath} />
+            </AnimatePresence>
 
-          <ReactQueryDevtools />
+            <ReactQueryDevtools />
+          </RecruitersContextProvider>
         </Hydrate>
       </QueryClientProvider>
     </ChakraProvider>
