@@ -36,7 +36,13 @@ export default function Home() {
   const [queryPrefetched, setQueryPrefetched] = useState(data);
 
   const { setColorMode } = useColorMode();
-  const { setState, state } = useContext(RecruitersContext);
+  const {
+    setName,
+    name,
+    scrollToShow,
+    setScrollToShow,
+    setDisableHeadersMenu,
+  } = useContext(RecruitersContext);
 
   const query = useQueryClient();
   const { asPath } = useRouter();
@@ -50,16 +56,15 @@ export default function Home() {
   } = useDisclosure();
   const [lockLineAux, setLockLineAux] = useState(false);
   const [auxLoggedAnimation, setauxLoggedAnimation] = useState(false);
-  const [scrollToShow, setScrollToShow] = useState([true, false, false, false]);
 
   useEffect(() => {
     closeChangeName();
 
     setTimeout(() => {
       openChangeName();
-      state.name !== '' && setauxLoggedAnimation(true);
+      name !== '' && setauxLoggedAnimation(true);
     }, 500);
-  }, [state.name]);
+  }, [name]);
 
   useEffect(() => {
     scrollToShow[2] ? setColorMode('dark') : setColorMode('light');
@@ -78,7 +83,7 @@ export default function Home() {
       document.body.style.overflow = 'auto';
 
       // Save the name
-      setState({ name: nameRecruiter });
+      setName(nameRecruiter);
 
       await fetch(`/api/insert/${nameRecruiter}`);
       query.invalidateQueries('getAccessData');
@@ -97,14 +102,14 @@ export default function Home() {
   useEffect(() => {
     setColorMode('light');
 
-    if (state.name !== '') {
+    if (name !== '') {
       document.body.style.overflow = 'auto';
     } else {
       document.body.style.overflow = 'hidden';
     }
 
     const handleWeel = () => {
-      if (state.name === '') {
+      if (name === '') {
         if (lockWheel) {
           setLockLineAux(true);
         }
@@ -114,6 +119,7 @@ export default function Home() {
     };
 
     const handScroll = () => {
+      console.log(window.scrollY);
       /**
        *
        *
@@ -123,11 +129,12 @@ export default function Home() {
         setScrollToShow([scrollToShow[0], true, false, false]);
       } else if (window.scrollY <= 950) {
         setScrollToShow([scrollToShow[0], false, false, false]);
-      } else if (window.scrollY > 2000 && window.scrollY < 2600) {
+      } else if (window.scrollY > 2000 && window.scrollY < 2400) {
         setScrollToShow([scrollToShow[0], scrollToShow[1], true, false]);
       } else if (window.scrollY < 2000 && window.scrollY > 950) {
         setScrollToShow([scrollToShow[0], scrollToShow[1], false, false]);
-      } else if (window.scrollY >= 2600) {
+      } else if (window.scrollY >= 2400) {
+        setDisableHeadersMenu(false);
         setScrollToShow([scrollToShow[0], scrollToShow[1], true, true]);
       }
     };
@@ -181,13 +188,8 @@ export default function Home() {
             <SlideFade in={changeName} offsetY="20px">
               <Text color="brand.100" fontSize={60} fontWeight="extrabold">
                 Hello{' '}
-                {auxLoggedAnimation && state.name
-                  ? state.name.split(' ')[0]
-                  : 'recruiter'}
-                ,{' '}
-                {auxLoggedAnimation && state.name
-                  ? `let's go on!`
-                  : 'Alright!?'}
+                {auxLoggedAnimation && name ? name.split(' ')[0] : 'recruiter'},{' '}
+                {auxLoggedAnimation && name ? `let's go on!` : 'Alright!?'}
               </Text>
             </SlideFade>
 
@@ -215,28 +217,24 @@ export default function Home() {
                       : 'Your name'
                   }
                   border={
-                    state.name === '' && lockLineAux
-                      ? ' 1px solid'
-                      : '1px solid'
+                    name === '' && lockLineAux ? ' 1px solid' : '1px solid'
                   }
                   borderColor={
-                    state.name === '' && lockLineAux ? 'red.400' : 'brand.100'
+                    name === '' && lockLineAux ? 'red.400' : 'brand.100'
                   }
                   focusBorderColor={
-                    state.name === '' && lockLineAux ? 'red.400' : 'brand.100'
+                    name === '' && lockLineAux ? 'red.400' : 'brand.100'
                   }
-                  disabled={auxLoggedAnimation && state.name !== ''}
+                  disabled={auxLoggedAnimation && name !== ''}
                 />
                 <Button
                   onClick={() => {
                     unlockMore();
                   }}
                   size="lg"
-                  bg={
-                    state.name === '' && lockLineAux ? 'red.400' : 'brand.200'
-                  }
+                  bg={name === '' && lockLineAux ? 'red.400' : 'brand.200'}
                   colorScheme="brand"
-                  disabled={auxLoggedAnimation && state.name !== ''}
+                  disabled={auxLoggedAnimation && name !== ''}
                 >
                   SEND
                 </Button>
@@ -245,7 +243,7 @@ export default function Home() {
           </Flex>
         </VStack>
 
-        <Lock locked={state.name === ''} lockLineAux={lockLineAux} />
+        <Lock locked={name === ''} lockLineAux={lockLineAux} />
 
         {/**
          *
@@ -403,7 +401,7 @@ export default function Home() {
       </Layout>
 
       <UnlockedScroll
-        locked={state.name !== '' && !scrollToShow[1] && !scrollToShow[2]}
+        locked={name !== '' && !scrollToShow[1] && !scrollToShow[2]}
       />
     </>
   );

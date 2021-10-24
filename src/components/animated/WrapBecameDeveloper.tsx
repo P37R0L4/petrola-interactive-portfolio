@@ -30,6 +30,14 @@ import {
   SiSass,
   SiTypescript,
 } from 'react-icons/si';
+import moment from 'moment';
+import { GetServerSideProps } from 'next';
+import { queryClient } from '../../services/queryClient';
+import { dehydrate } from 'react-query';
+import {
+  getTecnologies,
+  useTecnologies,
+} from '../../services/hooks/useTecnologies';
 
 const variants = {
   visible: { opacity: 1 },
@@ -42,6 +50,18 @@ interface IWrapBecameDeveloper {
 
 export function WrapBecameDeveloper({ isOpen }: IWrapBecameDeveloper) {
   const colorWrapFrame = useColorModeValue('gray.300', 'gray.700');
+  const { data } = useTecnologies();
+
+  const getExperienceYears = (
+    since: string | undefined = moment.now().toString(),
+    text: string = 'this year'
+  ): string => {
+    const startedYear = moment(since, 'YYYY')
+      .fromNow()
+      .replace('years ago', '');
+
+    return Number(startedYear) > 1 ? startedYear : text;
+  };
 
   return (
     <Wrap position="relative" w="full" h="full" mt={30}>
@@ -148,7 +168,9 @@ export function WrapBecameDeveloper({ isOpen }: IWrapBecameDeveloper) {
             bg="brand.300"
             hasArrow
             rounded={10}
-            label="5 years with Typescript"
+            label={`${getExperienceYears(
+              data?.typescript.since
+            )} years with Typescript`}
             placement="left"
             p={2}
           >
@@ -174,7 +196,9 @@ export function WrapBecameDeveloper({ isOpen }: IWrapBecameDeveloper) {
             bg="brand.500"
             rounded={10}
             hasArrow
-            label="I code with NodeJS for 6 years."
+            label={`I code with NodeJS for ${getExperienceYears(
+              data?.node?.since
+            )} years.`}
             placement="top"
             p={2}
           >
@@ -225,7 +249,9 @@ export function WrapBecameDeveloper({ isOpen }: IWrapBecameDeveloper) {
             bg="brand.200"
             rounded={10}
             hasArrow
-            label="I love Sass. That's amazing! I use for 5 years!"
+            label={`I love Sass. That's amazing! I code for ${getExperienceYears(
+              data?.sass.since
+            )} years!`}
             placement="left"
             p={2}
           >
@@ -251,7 +277,9 @@ export function WrapBecameDeveloper({ isOpen }: IWrapBecameDeveloper) {
             bg="brand.400"
             rounded={10}
             hasArrow
-            label="3 Years using React and React Native, i was code with Angular and VueJS for a lot of time"
+            label={`${getExperienceYears(
+              data?.react.since
+            )} Years using React and React Native, i was code with Angular and VueJS for a litte time too.`}
             placement="top"
             p={2}
           >
@@ -264,7 +292,9 @@ export function WrapBecameDeveloper({ isOpen }: IWrapBecameDeveloper) {
             bg="brand.500"
             rounded={10}
             hasArrow
-            label="I start to study Swift this year."
+            label={`I start to study Swift ${getExperienceYears(
+              data?.swift.since
+            )}.`}
             placement="top"
             p={2}
           >
@@ -290,3 +320,13 @@ export function WrapBecameDeveloper({ isOpen }: IWrapBecameDeveloper) {
     </Wrap>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async () => {
+  await queryClient.prefetchQuery('useTecnologies', getTecnologies);
+
+  return {
+    props: {
+      dehydratedState: dehydrate(queryClient),
+    },
+  };
+};

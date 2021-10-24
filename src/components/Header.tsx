@@ -2,7 +2,8 @@ import { Button, IconButton } from '@chakra-ui/button';
 import { HStack, useColorModeValue } from '@chakra-ui/react';
 import { AiFillApple, AiFillGithub, AiFillLinkedin } from 'react-icons/ai';
 import NoScrollLink from './NoScrollLink';
-import { ReactNode } from 'react';
+import { ReactNode, useContext } from 'react';
+import { RecruitersContext } from '../contexts/RecruitersContextProvider';
 
 interface IHeader {
   isVisible: boolean;
@@ -12,12 +13,14 @@ interface IHeaderButton {
   children: ReactNode;
   href: string;
   isBrand?: boolean;
+  disabled?: boolean;
 }
 
-function HeaderButton({ children, href, isBrand }: IHeaderButton) {
+function HeaderButton({ children, href, isBrand, disabled }: IHeaderButton) {
   return (
     <NoScrollLink href={href}>
       <Button
+        disabled={disabled}
         variant={isBrand ? 'solid' : 'link'}
         color={isBrand ? useColorModeValue('black', 'white') : 'white'}
         size="small"
@@ -31,6 +34,8 @@ function HeaderButton({ children, href, isBrand }: IHeaderButton) {
 }
 
 export function Header({ isVisible }: IHeader) {
+  const { disableHeadersMenu } = useContext(RecruitersContext);
+
   return (
     <HStack
       display={!isVisible ? 'none' : 'flex'}
@@ -45,10 +50,14 @@ export function Header({ isVisible }: IHeader) {
         .p37r0l4()
       </HeaderButton>
 
-      <HStack bg={useColorModeValue('black', 'gray.700')} p={3} color="white">
-        <HeaderButton href="#">.work()</HeaderButton>
-        <HeaderButton href="/profile">.who.iam()</HeaderButton>
-        <HeaderButton href="#">.projects()</HeaderButton>
+      <HStack bg={useColorModeValue('black', 'brand.200')} p={3} color="white">
+        <HeaderButton href="#">.my.projects()</HeaderButton>
+        <HeaderButton href="/profile" disabled={disableHeadersMenu}>
+          .who.iam()
+        </HeaderButton>
+        <HeaderButton href="#" disabled={disableHeadersMenu}>
+          .who.visited()
+        </HeaderButton>
 
         <a
           target="_blank"

@@ -17,7 +17,7 @@ export function Layout({ children }: ILayout) {
       animate="enter" // Animated state to variants.enter
       exit="exit" // Exit state (used later) to variants.exit
       variants={variants} // Pass the variant object into Framer Motion
-      transition={{ type: 'spring' }} // Set the transition to linear
+      transition={{ type: 'spring', duration: 0.7 }} // Set the transition to linear
     >
       {children}
     </motion.main>

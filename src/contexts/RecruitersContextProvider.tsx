@@ -1,19 +1,21 @@
-import React, { createContext, useState } from 'react';
-
-type RecruiterType = {
-  name: string;
-};
+import React, { createContext, Dispatch, useState } from 'react';
 
 type RecruitersContextProps = {
-  state: RecruiterType;
-  setState: React.Dispatch<React.SetStateAction<RecruiterType>>;
+  name: string;
+  disableHeadersMenu: boolean;
+  scrollToShow: Array<boolean>;
+  setName: Dispatch<React.SetStateAction<string>>;
+  setScrollToShow: Dispatch<React.SetStateAction<Array<boolean>>>;
+  setDisableHeadersMenu: Dispatch<React.SetStateAction<boolean>>;
 };
 
 const DEFAULT_VALUES = {
-  state: {
-    name: '',
-  },
-  setState: () => {},
+  name: '',
+  scrollToShow: [true, false, false, false],
+  disableHeadersMenu: true,
+  setName: () => {},
+  setScrollToShow: () => {},
+  setDisableHeadersMenu: () => {},
 };
 
 interface IRecruitersContextProvider {
@@ -26,10 +28,23 @@ export const RecruitersContext =
 export function RecruitersContextProvider({
   children,
 }: IRecruitersContextProvider) {
-  const [state, setState] = useState(DEFAULT_VALUES.state);
+  const [name, setName] = useState(DEFAULT_VALUES.name);
+  const [scrollToShow, setScrollToShow] = useState(DEFAULT_VALUES.scrollToShow);
+  const [disableHeadersMenu, setDisableHeadersMenu] = useState(
+    DEFAULT_VALUES.disableHeadersMenu
+  );
 
   return (
-    <RecruitersContext.Provider value={{ state, setState }}>
+    <RecruitersContext.Provider
+      value={{
+        name,
+        setName,
+        scrollToShow,
+        setScrollToShow,
+        disableHeadersMenu,
+        setDisableHeadersMenu,
+      }}
+    >
       {children}
     </RecruitersContext.Provider>
   );

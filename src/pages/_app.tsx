@@ -59,7 +59,10 @@ function MyApp({ Component, pageProps }: AppProps) {
             <Header isVisible={router.asPath !== '/'} />
             <Docker />
 
-            <AnimatePresence onExitComplete={() => window.scrollTo(0, 0)}>
+            <AnimatePresence
+              exitBeforeEnter
+              onExitComplete={() => window.scrollTo(0, 0)}
+            >
               <Component {...pageProps} key={router.asPath} />
             </AnimatePresence>
 

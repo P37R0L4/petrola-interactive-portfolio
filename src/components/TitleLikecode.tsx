@@ -3,11 +3,13 @@ import { Fade, SlideFade } from '@chakra-ui/transition';
 
 interface ITitleLikeCode {
   title: string;
-  subtitle: string;
+  subtitle?: string;
   text: string;
   show: boolean;
   color?: string;
   isMaintitle?: boolean;
+  subtitleColored?: boolean;
+  colorSubtitle?: string;
 }
 
 export function TitleLikeCode({
@@ -17,6 +19,8 @@ export function TitleLikeCode({
   text,
   color = 'brand.100',
   isMaintitle = false,
+  subtitleColored = false,
+  colorSubtitle,
 }: ITitleLikeCode) {
   return (
     <>
@@ -31,7 +35,7 @@ export function TitleLikeCode({
           <Text
             w={isMaintitle ? '40rem' : 'auto'}
             fontSize={30}
-            color="gray.400"
+            color={subtitleColored ? colorSubtitle : 'gray.400'}
           >
             {subtitle}
           </Text>

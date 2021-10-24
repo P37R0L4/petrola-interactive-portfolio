@@ -12,7 +12,7 @@ export function TitleLikeFunction({
   nameRecruiter = '',
   nameFunction,
 }: ITitleLikeFunction) {
-  const { state } = useContext(RecruitersContext);
+  const { name } = useContext(RecruitersContext);
 
   return (
     <Text
@@ -25,11 +25,11 @@ export function TitleLikeFunction({
       <span style={{ color: '#F15BB5' }}>
         .{nameFunction}(
         <span style={{ color: useColorModeValue('black', 'white') }}>
-          {state.name === ''
+          {name === ''
             ? nameRecruiter !== ''
               ? `"${nameRecruiter}"`
               : 'null'
-            : `"${state.name}"`}
+            : `"${name}"`}
         </span>
         )
       </span>
