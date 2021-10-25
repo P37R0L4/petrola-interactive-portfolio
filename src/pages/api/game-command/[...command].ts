@@ -10,8 +10,9 @@ export default function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
-  const { name } = req.query;
-  recruitersRepo.create(name);
-  const data = recruitersRepo.getAll();
+  const { command } = req.query;
+  const data = recruitersRepo.getById(command[1]);
+
+  recruitersRepo.updateGame(command[1], command[0], command[2]);
   res.status(200).json(data);
 }

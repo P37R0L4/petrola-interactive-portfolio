@@ -11,7 +11,6 @@ import {
   Button,
 } from '@chakra-ui/react';
 import { GoDeviceMobile, GoDeviceDesktop, GoBrowser } from 'react-icons/go';
-import { BiGame } from 'react-icons/bi';
 import { ImProfile } from 'react-icons/im';
 import { VscOctoface } from 'react-icons/vsc';
 import { MdCardTravel } from 'react-icons/md';
@@ -123,21 +122,17 @@ export default function ShowMoreMinions({ show }: IShowMoreMinions) {
           <PopoverBody>
             <Wrap>
               <Button leftIcon={<VscOctoface />} size="lg">
-                My Works
-              </Button>
-
-              <Button leftIcon={<BiGame />} size="lg">
-                My Hobbies
+                .my.projects()
               </Button>
 
               <NoScrollLink href="/profile" scroll={false}>
                 <Button leftIcon={<ImProfile />} size="lg">
-                  Who i'am
+                  .who.iam()
                 </Button>
               </NoScrollLink>
 
               <Button leftIcon={<MdCardTravel />} size="lg">
-                Who Visited
+                .who.visited()
               </Button>
             </Wrap>
           </PopoverBody>

@@ -12,7 +12,7 @@ import {
 import { TiArrowBack } from 'react-icons/ti';
 import Icon from '@chakra-ui/icon';
 import { useEffect, useState } from 'react';
-import { useColorModeValue, useColorMode } from '@chakra-ui/color-mode';
+import { useColorModeValue } from '@chakra-ui/color-mode';
 import { useRouter } from 'next/router';
 
 const COLORS = [
@@ -32,8 +32,7 @@ export function Docker() {
     COLORS[Math.floor(Math.random() * (5 - 0) + 0)]
   );
 
-  const router = useRouter();
-  const { colorMode } = useColorMode();
+  const { asPath } = useRouter();
 
   useEffect(() => {
     let timer: any = null;
@@ -73,7 +72,9 @@ export function Docker() {
     <Center
       position="fixed"
       h="100vh"
-      display={router.asPath !== '/' ? 'flex' : 'none'}
+      display={
+        asPath !== '/' && asPath.indexOf('/mini-game') === -1 ? 'flex' : 'none'
+      }
       onMouseEnter={() => onOpen()}
       onMouseLeave={() => onClose()}
       zIndex={999}

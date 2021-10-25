@@ -4,10 +4,15 @@ export type AccessData = {
   name: string;
   grade: number;
   date: string;
+  id: number;
+  game: {
+    started: boolean;
+    position: number;
+  };
 };
 
 export interface IAccessData {
-  AccessDataArray: Array<AccessData>;
+  AccessDataArray: AccessData;
   length?: 0;
 }
 

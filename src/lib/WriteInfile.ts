@@ -17,6 +17,7 @@ export const recruitersRepo = {
   find: (x: any) => recruiters.find(x),
   create,
   update,
+  updateGame,
   delete: _delete,
 };
 
@@ -30,26 +31,50 @@ function create(user: any) {
     },
    */
 
-  const date = new Date();
-
   const userTmp: any = {};
+  userTmp['id'] = recruiters.length + 1;
   userTmp['name'] = user;
-  userTmp['data'] = `${date.getDay()}-${date.getMonth()}-${date.getFullYear()}`;
+  userTmp['data'] = new Date().getTime();
   userTmp['grade'] = 0;
+  userTmp['game'] = { position: 50, started: false };
 
   // add and save user
   recruiters.push(userTmp);
   saveData();
 }
 
-function update(id: any, params: any) {
-  const user = recruiters.find((x: any) => x.id.toString() === id.toString());
+function update(id: any, params: any, value: any) {
+  const recruiter = recruiters.find(
+    (x: any) => x.id.toString() === id.toString()
+  );
 
   // set date updated
-  user.dateUpdated = new Date().toISOString();
+  // recruiter[params] = value;
 
   // update and save
-  Object.assign(user, params);
+  // Object.assign(recruiter, params);
+  // saveData();
+}
+
+function updateGame(id: any, params: string, value: any) {
+  const recruiter = recruiters.find(
+    (x: any) => x.id.toString() === id.toString()
+  );
+
+  // set date updated
+  if (params === 'started') {
+    recruiter['game'][params] = Number(value);
+  } else if (params === 'position') {
+    if (recruiter['game'][params] > 10 && recruiter['game'][params] < 90) {
+      recruiter['game'][params] = recruiter['game'][params] + Number(value);
+    } else if (recruiter['game'][params] >= 90) {
+      recruiter['game'][params] = 11;
+    } else if (recruiter['game'][params] <= 0) {
+      recruiter['game'][params] = 89;
+    }
+  }
+
+  // update and save
   saveData();
 }
 

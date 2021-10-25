@@ -1,20 +1,24 @@
 import React, { createContext, Dispatch, useState } from 'react';
 
-type RecruitersContextProps = {
+export type RecruitersContextProps = {
   name: string;
   disableHeadersMenu: boolean;
-  scrollToShow: Array<boolean>;
+  minigame: boolean;
+  id: number;
+  setId: Dispatch<React.SetStateAction<number>>;
   setName: Dispatch<React.SetStateAction<string>>;
-  setScrollToShow: Dispatch<React.SetStateAction<Array<boolean>>>;
   setDisableHeadersMenu: Dispatch<React.SetStateAction<boolean>>;
+  setMinigame: Dispatch<React.SetStateAction<boolean>>;
 };
 
 const DEFAULT_VALUES = {
   name: '',
-  scrollToShow: [true, false, false, false],
+  id: 0,
+  minigame: false,
   disableHeadersMenu: true,
   setName: () => {},
-  setScrollToShow: () => {},
+  setId: () => {},
+  setMinigame: () => {},
   setDisableHeadersMenu: () => {},
 };
 
@@ -29,7 +33,8 @@ export function RecruitersContextProvider({
   children,
 }: IRecruitersContextProvider) {
   const [name, setName] = useState(DEFAULT_VALUES.name);
-  const [scrollToShow, setScrollToShow] = useState(DEFAULT_VALUES.scrollToShow);
+  const [minigame, setMinigame] = useState(DEFAULT_VALUES.minigame);
+  const [id, setId] = useState(DEFAULT_VALUES.id);
   const [disableHeadersMenu, setDisableHeadersMenu] = useState(
     DEFAULT_VALUES.disableHeadersMenu
   );
@@ -39,10 +44,12 @@ export function RecruitersContextProvider({
       value={{
         name,
         setName,
-        scrollToShow,
-        setScrollToShow,
         disableHeadersMenu,
         setDisableHeadersMenu,
+        minigame,
+        setMinigame,
+        id,
+        setId,
       }}
     >
       {children}

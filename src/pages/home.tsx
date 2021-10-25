@@ -36,17 +36,13 @@ export default function Home() {
   const [queryPrefetched, setQueryPrefetched] = useState(data);
 
   const { setColorMode } = useColorMode();
-  const {
-    setName,
-    name,
-    scrollToShow,
-    setScrollToShow,
-    setDisableHeadersMenu,
-  } = useContext(RecruitersContext);
+  const { setName, name, setDisableHeadersMenu, setId, id } =
+    useContext(RecruitersContext);
 
   const query = useQueryClient();
   const { asPath } = useRouter();
 
+  const [scrollToShow, setScrollToShow] = useState([true, false, false, false]);
   const [nameRecruiter, setNameRecruiter] = useState('');
 
   const {
@@ -85,7 +81,10 @@ export default function Home() {
       // Save the name
       setName(nameRecruiter);
 
-      await fetch(`/api/insert/${nameRecruiter}`);
+      const response = await fetch(`/api/insert/${nameRecruiter}`);
+      const arrJson: any = await response.json();
+      setId(arrJson[arrJson.length - 1].id);
+
       query.invalidateQueries('getAccessData');
       setQueryPrefetched(data);
     } else {
@@ -119,7 +118,6 @@ export default function Home() {
     };
 
     const handScroll = () => {
-      console.log(window.scrollY);
       /**
        *
        *

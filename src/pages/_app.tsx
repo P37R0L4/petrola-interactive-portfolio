@@ -56,7 +56,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <QueryClientProvider client={queryClient}>
         <Hydrate state={pageProps.dehydratedState}>
           <RecruitersContextProvider>
-            <Header isVisible={router.asPath !== '/'} />
+            <Header />
             <Docker />
 
             <AnimatePresence

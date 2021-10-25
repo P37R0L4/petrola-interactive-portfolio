@@ -4,6 +4,7 @@ import { AiFillApple, AiFillGithub, AiFillLinkedin } from 'react-icons/ai';
 import NoScrollLink from './NoScrollLink';
 import { ReactNode, useContext } from 'react';
 import { RecruitersContext } from '../contexts/RecruitersContextProvider';
+import { useRouter } from 'next/router';
 
 interface IHeader {
   isVisible: boolean;
@@ -33,12 +34,15 @@ function HeaderButton({ children, href, isBrand, disabled }: IHeaderButton) {
   );
 }
 
-export function Header({ isVisible }: IHeader) {
+export function Header() {
   const { disableHeadersMenu } = useContext(RecruitersContext);
+  const { asPath } = useRouter();
 
   return (
     <HStack
-      display={!isVisible ? 'none' : 'flex'}
+      display={
+        asPath === '/' || asPath.indexOf('/mini-game') !== -1 ? 'none' : 'flex'
+      }
       position="fixed"
       w="full"
       p={6}
@@ -46,16 +50,26 @@ export function Header({ isVisible }: IHeader) {
       justifyContent="space-between"
       zIndex={9999}
     >
-      <HeaderButton isBrand href="/home">
+      <HeaderButton isBrand href="/home" disabled={asPath === '/home'}>
         .p37r0l4()
       </HeaderButton>
 
       <HStack bg={useColorModeValue('black', 'brand.200')} p={3} color="white">
-        <HeaderButton href="#">.my.projects()</HeaderButton>
-        <HeaderButton href="/profile" disabled={disableHeadersMenu}>
+        <HeaderButton href="#" disabled={asPath === '/projects'}>
+          .my.projects()
+        </HeaderButton>
+
+        <HeaderButton
+          href="/profile"
+          disabled={disableHeadersMenu || asPath === '/profile'}
+        >
           .who.iam()
         </HeaderButton>
-        <HeaderButton href="#" disabled={disableHeadersMenu}>
+
+        <HeaderButton
+          href="#"
+          disabled={disableHeadersMenu || asPath === '/visited'}
+        >
           .who.visited()
         </HeaderButton>
 
