@@ -9,7 +9,7 @@ interface ITitleLikeFunction {
 }
 
 export function TitleLikeFunction({
-  nameRecruiter = '',
+  nameRecruiter,
   nameFunction,
 }: ITitleLikeFunction) {
   const { name } = useContext(RecruitersContext);
@@ -23,13 +23,9 @@ export function TitleLikeFunction({
     >
       <span style={{ color: '#9B5DE5' }}>new </span>p37r0l4()
       <span style={{ color: '#F15BB5' }}>
-        .{nameFunction}(
+        .{nameFunction.replace(/ /g, '')}(
         <span style={{ color: useColorModeValue('black', 'white') }}>
-          {name === ''
-            ? nameRecruiter !== ''
-              ? `"${nameRecruiter}"`
-              : 'null'
-            : `"${name}"`}
+          {nameRecruiter !== '' ? nameRecruiter : name !== '' ? name : 'null'}
         </span>
         )
       </span>

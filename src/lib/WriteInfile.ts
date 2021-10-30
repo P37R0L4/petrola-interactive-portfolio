@@ -34,9 +34,9 @@ function create(user: any) {
   const userTmp: any = {};
   userTmp['id'] = recruiters.length + 1;
   userTmp['name'] = user;
-  userTmp['data'] = new Date().getTime();
+  userTmp['data'] = new Date().getTime() / 1000;
   userTmp['grade'] = 0;
-  userTmp['game'] = { position: 50, started: false };
+  userTmp['game'] = { position: 50, started: false, minigamePoints: 0 };
 
   // add and save user
   recruiters.push(userTmp);

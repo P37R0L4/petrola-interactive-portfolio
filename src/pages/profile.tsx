@@ -24,14 +24,12 @@ import { RecruitersContext } from '../contexts/RecruitersContextProvider';
 import Draggable from 'react-draggable';
 import { ContentMinigame } from '../components/miniGame';
 
-let lock = true;
-
 export default function Profile() {
   const { asPath, push } = useRouter();
   const [scroolState, setScroolState] = useState(0);
   const [minigameStarted, setMinigameStarted] = useState(0);
   const [minigamePosition, setMinigamePosition] = useState(0);
-  const { id, name } = useContext(RecruitersContext);
+  const { id } = useContext(RecruitersContext);
 
   const { setColorMode } = useColorMode();
 
@@ -60,11 +58,16 @@ export default function Profile() {
     element.addEventListener('wheel', transformScroll);
 
     let intervalMiniGame = setInterval(async () => {
-      const response = await fetch(`/api/get-one/${id}`);
-      const arrJson = await response.json();
+      if (id) {
+        const response = await fetch(`/api/get-one/${id}`);
+        const arrJson = await response.json();
 
-      setMinigameStarted(arrJson.game.started ?? false);
-      setMinigamePosition(arrJson.game.position ?? 50);
+        setMinigameStarted(arrJson.game.started ?? false);
+        setMinigamePosition(arrJson.game.position ?? 50);
+      } else {
+        push('/home');
+        clearInterval(intervalMiniGame);
+      }
     }, 500);
 
     return () => {
@@ -289,7 +292,7 @@ export default function Profile() {
        * Moon
        *
        *  */}
-      {scroolState > 3000 && scroolState < 4300 && (
+      {scroolState > 2500 && scroolState < 4300 && (
         <motion.div
           style={{ position: 'fixed', left: '-20vw', top: '-50vh' }}
           initial={{ translateY: -1000, translateX: -1000 }}
@@ -350,7 +353,7 @@ export default function Profile() {
             >
               <QRCode
                 title="P37R0L4 mini game"
-                value={`http://192.168.1.120:3000/mini-game/control/${id}`}
+                value={`http://172.17.172.207:3000/mini-game/control/${id}`}
                 size={300}
                 fgColor="#1A202C"
                 bgColor="rgba(58, 72, 100, 1)"

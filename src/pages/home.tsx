@@ -36,8 +36,7 @@ export default function Home() {
   const [queryPrefetched, setQueryPrefetched] = useState(data);
 
   const { setColorMode } = useColorMode();
-  const { setName, name, setDisableHeadersMenu, setId, id } =
-    useContext(RecruitersContext);
+  const { setName, name, setId } = useContext(RecruitersContext);
 
   const query = useQueryClient();
   const { asPath } = useRouter();
@@ -132,7 +131,6 @@ export default function Home() {
       } else if (window.scrollY < 2000 && window.scrollY > 950) {
         setScrollToShow([scrollToShow[0], scrollToShow[1], false, false]);
       } else if (window.scrollY >= 2400) {
-        setDisableHeadersMenu(false);
         setScrollToShow([scrollToShow[0], scrollToShow[1], true, true]);
       }
     };

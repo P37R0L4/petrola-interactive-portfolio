@@ -121,9 +121,11 @@ export default function ShowMoreMinions({ show }: IShowMoreMinions) {
           <PopoverArrow />
           <PopoverBody>
             <Wrap>
-              <Button leftIcon={<VscOctoface />} size="lg">
-                .my.projects()
-              </Button>
+              <NoScrollLink href="/projects" scroll={false}>
+                <Button leftIcon={<VscOctoface />} size="lg">
+                  .my.projects()
+                </Button>
+              </NoScrollLink>
 
               <NoScrollLink href="/profile" scroll={false}>
                 <Button leftIcon={<ImProfile />} size="lg">
@@ -131,9 +133,11 @@ export default function ShowMoreMinions({ show }: IShowMoreMinions) {
                 </Button>
               </NoScrollLink>
 
-              <Button leftIcon={<MdCardTravel />} size="lg">
-                .who.visited()
-              </Button>
+              <NoScrollLink href="/visited" scroll={false}>
+                <Button leftIcon={<MdCardTravel />} size="lg">
+                  .who.visited()
+                </Button>
+              </NoScrollLink>
             </Wrap>
           </PopoverBody>
         </PopoverContent>

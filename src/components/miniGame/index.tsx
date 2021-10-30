@@ -9,6 +9,9 @@ export function ContentMinigame({ position }: ContentMinigameProps) {
   const [blink, setBlink] = useState(false);
   const [blinkEminen, setBlinkEminen] = useState(false);
   const [positionEminen, setpPositionEminen] = useState(50);
+  const [ballBositionX, setBallBositionX] = useState(50.5);
+  const [ballBositionY, setBallBositionY] = useState(50.5);
+  // const [angle, setAngle] = useState(50);
 
   useEffect(() => {
     setBlink(true);
@@ -44,6 +47,7 @@ export function ContentMinigame({ position }: ContentMinigameProps) {
       h="full"
       overflowY="scroll"
       rounded="lg"
+      position="relative"
       _after={{
         content: '""',
         width: '50%',
@@ -63,6 +67,15 @@ export function ContentMinigame({ position }: ContentMinigameProps) {
         rounded="sm"
         float="left"
       />
+
+      <Box
+        w={3}
+        h={3}
+        bg="red.300"
+        top={`${ballBositionY}%`}
+        left={`${ballBositionX}%`}
+        position="absolute"
+      ></Box>
 
       <Box
         transition="0.5"

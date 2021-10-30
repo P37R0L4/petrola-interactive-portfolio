@@ -6,10 +6,6 @@ import { ReactNode, useContext } from 'react';
 import { RecruitersContext } from '../contexts/RecruitersContextProvider';
 import { useRouter } from 'next/router';
 
-interface IHeader {
-  isVisible: boolean;
-}
-
 interface IHeaderButton {
   children: ReactNode;
   href: string;
@@ -35,7 +31,7 @@ function HeaderButton({ children, href, isBrand, disabled }: IHeaderButton) {
 }
 
 export function Header() {
-  const { disableHeadersMenu } = useContext(RecruitersContext);
+  const { name } = useContext(RecruitersContext);
   const { asPath } = useRouter();
 
   return (
@@ -55,20 +51,23 @@ export function Header() {
       </HeaderButton>
 
       <HStack bg={useColorModeValue('black', 'brand.200')} p={3} color="white">
-        <HeaderButton href="#" disabled={asPath === '/projects'}>
+        <HeaderButton
+          href="/projects"
+          disabled={name === '' || asPath === '/projects'}
+        >
           .my.projects()
         </HeaderButton>
 
         <HeaderButton
           href="/profile"
-          disabled={disableHeadersMenu || asPath === '/profile'}
+          disabled={name === '' || asPath === '/profile'}
         >
           .who.iam()
         </HeaderButton>
 
         <HeaderButton
-          href="#"
-          disabled={disableHeadersMenu || asPath === '/visited'}
+          href="/visited"
+          disabled={name === '' || asPath === '/visited'}
         >
           .who.visited()
         </HeaderButton>

@@ -8,6 +8,7 @@ export type AccessData = {
   game: {
     started: boolean;
     position: number;
+    minigamePoints: number;
   };
 };
 
