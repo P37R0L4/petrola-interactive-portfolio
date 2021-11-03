@@ -1,4 +1,4 @@
-import { Flex, VStack, useColorMode } from '@chakra-ui/react';
+import { Flex, VStack, useColorMode, Text } from '@chakra-ui/react';
 import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
 import { useContext, useEffect, useState } from 'react';
@@ -97,14 +97,21 @@ export default function WhosVisited() {
                     nameRecruiter="null"
                     nameFunction={item.name}
                   />
-
                   <TitleLikeCode
                     color="brand.100"
                     show={true}
-                    title={`Give me ${item.grade} points`}
+                    title={`Give me ${item.grade}`}
                     subtitle={`<Visited in ${convertTimestamp(item.data)} />`}
                     text={`<He get's ${item.game.minigamePoints} Points in minigame />`}
                   />
+                  <Text fontSize={25} color="gray" m={7}>
+                    <span
+                      style={{ fontSize: 50, fontWeight: 'bold', margin: 10 }}
+                    >
+                      ‟
+                    </span>
+                    {item.comment ? item.comment : '...'}
+                  </Text>
                 </Flex>
               </VStack>
             );

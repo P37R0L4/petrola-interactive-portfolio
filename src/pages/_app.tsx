@@ -44,7 +44,7 @@ import { Hydrate } from 'react-query/hydration';
 import { useState } from 'react';
 import { Header } from '../components/Header';
 import { AnimatePresence } from 'framer-motion';
-import { Docker } from '../components/Docker';
+import { Dock } from '../components/Dock';
 import { RecruitersContextProvider } from '../contexts/RecruitersContextProvider';
 
 function MyApp({ Component, pageProps }: AppProps) {
@@ -57,7 +57,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <Hydrate state={pageProps.dehydratedState}>
           <RecruitersContextProvider>
             <Header />
-            <Docker />
+            <Dock />
 
             <AnimatePresence
               exitBeforeEnter

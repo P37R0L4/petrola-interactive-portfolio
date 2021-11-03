@@ -29,6 +29,6 @@ export const useAccessData = (
   options?: QOptions
 ): UseQueryResult<IAccessData, unknown> =>
   useQuery(`accessData`, getAccessData, {
-    staleTime: 1000 * 60 * 30, // 30min
+    staleTime: 1000 * 60, // 30min
     ...options,
   });

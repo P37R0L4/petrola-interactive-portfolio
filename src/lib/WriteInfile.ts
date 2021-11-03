@@ -36,6 +36,7 @@ function create(user: any) {
   userTmp['name'] = user;
   userTmp['data'] = new Date().getTime() / 1000;
   userTmp['grade'] = 0;
+  userTmp['comment'] = '';
   userTmp['game'] = { position: 50, started: false, minigamePoints: 0 };
 
   // add and save user
@@ -43,17 +44,14 @@ function create(user: any) {
   saveData();
 }
 
-function update(id: any, params: any, value: any) {
-  const recruiter = recruiters.find(
-    (x: any) => x.id.toString() === id.toString()
-  );
+function update(id: number, param: string, value: any) {
+  const recruiter = recruiters.find((x: any) => x.id === id);
 
   // set date updated
-  // recruiter[params] = value;
+  recruiter[param] = value;
 
   // update and save
-  // Object.assign(recruiter, params);
-  // saveData();
+  saveData();
 }
 
 function updateGame(id: any, params: string, value: any) {

@@ -11,9 +11,11 @@ import {
 } from 'react-icons/ai';
 import { TiArrowBack } from 'react-icons/ti';
 import Icon from '@chakra-ui/icon';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { useColorModeValue } from '@chakra-ui/color-mode';
 import { useRouter } from 'next/router';
+import { GiveMeGrade } from './animated/lock';
+import { RecruitersContext } from '../contexts/RecruitersContextProvider';
 
 const COLORS = [
   '#9B5DE5',
@@ -24,7 +26,7 @@ const COLORS = [
   '#1a202c',
 ];
 
-export function Docker() {
+export function Dock() {
   const { onClose, onOpen } = useDisclosure();
   const [scroll, setScroll] = useState(0);
   const [showDock, setShowDock] = useState(true);
@@ -33,6 +35,7 @@ export function Docker() {
   );
 
   const { asPath } = useRouter();
+  const { name } = useContext(RecruitersContext);
 
   useEffect(() => {
     let timer: any = null;
@@ -125,6 +128,7 @@ export function Docker() {
           color="white"
           size="lg"
           aria-label="first-doc"
+          disabled
           icon={<AiFillTwitterCircle size={60} />}
         />
 
@@ -133,6 +137,7 @@ export function Docker() {
           color="white"
           size="lg"
           aria-label="first-doc"
+          disabled
           icon={<AiFillFacebook size={60} />}
         />
 
@@ -172,6 +177,7 @@ export function Docker() {
           />
         </a>
       </VStack>
+      <GiveMeGrade show={name !== ''} color={dockColor} />
     </Center>
   );
 }
