@@ -22,8 +22,7 @@
     "prettier"
   ],
   "extends": [
-    "airbnb",
-    "prettier"
+    "next"
   ],
   "rules": {
     "prettier/prettier": "error",

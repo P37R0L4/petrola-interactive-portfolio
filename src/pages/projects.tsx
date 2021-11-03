@@ -20,8 +20,9 @@ export default function Projects() {
       return;
     }
 
-    if (asPath === '/projects') {
+    if (asPath === `/projects`) {
       setScroolState(event.currentTarget.scrollLeft);
+      // eslint-disable-next-line no-param-reassign
       event.currentTarget.scrollLeft += event.deltaY + event.deltaX;
     }
 
@@ -29,26 +30,26 @@ export default function Projects() {
   }
 
   useEffect(() => {
-    setColorMode('dark');
-    !id && push('/home');
-    document.body.style.overflow = 'hidden';
+    setColorMode(`dark`);
+    if (!id) push(`/home`);
+    document.body.style.overflow = `hidden`;
 
-    var element = document.scrollingElement || document.documentElement;
-    element.addEventListener('wheel', transformScroll);
+    const element = document.scrollingElement || document.documentElement;
+    element.addEventListener(`wheel`, transformScroll);
 
     setInterval(() => {
       setUnlockFade(true);
     }, 1000);
 
     return () => {
-      element.removeEventListener('wheel', transformScroll);
+      element.removeEventListener(`wheel`, transformScroll);
     };
   }, [asPath]);
 
   return (
     <>
       <Layout>
-        {/***
+        {/** *
          *
          *
          * First apresentation
@@ -63,14 +64,14 @@ export default function Projects() {
           w="70vw"
           h="20rem"
           _before={{
-            content: '""',
+            content: `""`,
             width: 5,
             height: 5,
-            bg: 'brand.200',
+            bg: `brand.200`,
             left: -2.5,
             top: 308,
-            borderRadius: 'full',
-            position: 'absolute',
+            borderRadius: `full`,
+            position: `absolute`,
           }}
         >
           <VStack pl={10} alignItems="flex-start" w="50vw" lineHeight={1}>
