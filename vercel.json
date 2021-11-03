@@ -1,7 +1,7 @@
 {
   "functions": {
-    "api/**": {
-      "includeFiles": "/public/samples/**"
+    "api/**/*.ts": {
+      "includeFiles": "/public/samples/*.json"
     }
   }
 }
