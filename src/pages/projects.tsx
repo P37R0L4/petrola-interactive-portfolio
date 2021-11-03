@@ -31,7 +31,7 @@ export default function Projects() {
 
   useEffect(() => {
     setColorMode(`dark`);
-    if (!id) push(`/home`);
+    !id && push(`/home`);
     document.body.style.overflow = `hidden`;
 
     const element = document.scrollingElement || document.documentElement;
