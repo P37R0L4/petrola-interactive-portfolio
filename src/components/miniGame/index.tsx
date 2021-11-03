@@ -1,17 +1,34 @@
-import { Box } from '@chakra-ui/layout';
+import { Box, Text, HStack } from '@chakra-ui/layout';
 import { useEffect, useState } from 'react';
 
 interface ContentMinigameProps {
   position: number;
 }
 
+let lockpointEminem = true;
+let lockpointPlayer = true;
+
 export function ContentMinigame({ position }: ContentMinigameProps) {
   const [blink, setBlink] = useState(false);
   const [blinkEminen, setBlinkEminen] = useState(false);
+
   const [positionEminen, setpPositionEminen] = useState(50);
   const [ballBositionX, setBallBositionX] = useState(50.5);
   const [ballBositionY, setBallBositionY] = useState(50.5);
+  const [invertX, setInvertX] = useState(1);
+  const [invertY, setInvertY] = useState(1);
+
+  const [randomY, setRandomY] = useState(1);
+  const [randomX, setRandomX] = useState(1);
+
+  const [pointsEminen, setPointsEminen] = useState(0);
+  const [pointsPlayer, setPointsPlayer] = useState(0);
+
   // const [angle, setAngle] = useState(50);
+
+  function getRandomArbitrary(min: number, max: number) {
+    return Math.random() * (max - min) + min;
+  }
 
   useEffect(() => {
     setBlink(true);
@@ -28,6 +45,56 @@ export function ContentMinigame({ position }: ContentMinigameProps) {
       setBlinkEminen(false);
     }, 20);
   }, [positionEminen]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      if (ballBositionX >= 97) {
+        setInvertX(-1);
+        setRandomX(getRandomArbitrary(-1, -3));
+      } else if (ballBositionX <= 3) {
+        setInvertX(1);
+        setRandomX(getRandomArbitrary(1, 3));
+      }
+
+      if (ballBositionY >= 97) {
+        setRandomY(getRandomArbitrary(-1, -3));
+      } else if (ballBositionY <= 3) {
+        setRandomY(getRandomArbitrary(1, 3));
+      }
+
+      if (lockpointEminem) {
+        if (
+          ballBositionX <= 3 &&
+          ((ballBositionY > 0 && ballBositionY < position - 20) ||
+            (ballBositionY > position && ballBositionY < 100))
+        ) {
+          setPointsEminen(pointsEminen + 1);
+          lockpointEminem = false;
+
+          setTimeout(() => {
+            lockpointEminem = true;
+          }, 1000);
+        }
+      }
+      if (lockpointPlayer) {
+        if (
+          ballBositionX >= 97 &&
+          ((ballBositionY > 0 && ballBositionY < positionEminen - 20) ||
+            (ballBositionY > positionEminen && ballBositionY < 100))
+        ) {
+          setPointsPlayer(pointsPlayer + 1);
+          lockpointPlayer = false;
+
+          setTimeout(() => {
+            lockpointPlayer = true;
+          }, 1000);
+        }
+      }
+
+      setBallBositionY(ballBositionY + randomY);
+      setBallBositionX(ballBositionX + invertX);
+    }, 50);
+  }, [ballBositionX]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -56,12 +123,27 @@ export function ContentMinigame({ position }: ContentMinigameProps) {
         borderRight: '1px solid #FEE440',
       }}
     >
+      <HStack
+        justifyContent="space-between"
+        w="50%"
+        position="absolute"
+        left="25%"
+        top="5%"
+      >
+        <Text fontSize={60} fontWeight="bold">
+          {pointsPlayer}
+        </Text>
+        <Text fontSize={60} fontWeight="bold">
+          {pointsEminen}
+        </Text>
+      </HStack>
+
       <Box
         transition="0.5"
         opacity={blink ? 0 : 1}
         position="relative"
-        top={`calc(${position}% - 10rem)`}
-        h="10rem"
+        top={`calc(${position}% - 20%)`}
+        h="20%"
         w={3}
         bg="brand.100"
         rounded="sm"
@@ -75,14 +157,14 @@ export function ContentMinigame({ position }: ContentMinigameProps) {
         top={`${ballBositionY}%`}
         left={`${ballBositionX}%`}
         position="absolute"
-      ></Box>
+      />
 
       <Box
         transition="0.5"
         opacity={blinkEminen ? 0 : 1}
         position="relative"
-        top={`calc(${positionEminen}% - 10rem)`}
-        h="10rem"
+        top={`calc(${positionEminen}% - 20%)`}
+        h="20%"
         w={3}
         bg="brand.200"
         rounded="sm"

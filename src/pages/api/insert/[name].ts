@@ -13,5 +13,6 @@ export default function handler(
   const { name } = req.query;
   recruitersRepo.create(name);
   const data = recruitersRepo.getAll();
+
   res.status(200).json(data);
 }

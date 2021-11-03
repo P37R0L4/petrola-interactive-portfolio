@@ -12,7 +12,6 @@ export default function handler(
 ) {
   const { id } = req.query;
   const data = recruitersRepo.getById(id);
-  console.log(data);
 
   res.status(200).json(data);
 }

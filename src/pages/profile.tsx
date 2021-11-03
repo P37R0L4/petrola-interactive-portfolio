@@ -68,7 +68,7 @@ export default function Profile() {
         push('/home');
         clearInterval(intervalMiniGame);
       }
-    }, 500);
+    }, 300);
 
     return () => {
       element.removeEventListener('wheel', transformScroll);
