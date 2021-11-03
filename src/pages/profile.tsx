@@ -353,7 +353,7 @@ export default function Profile() {
             >
               <QRCode
                 title="P37R0L4 mini game"
-                value={`http://172.17.172.207:3000/mini-game/control/${id}`}
+                value={`https://petrola-interactive-portfolio-3zx98yggv-petrola-portfolio.vercel.app/mini-game/control/${id}`}
                 size={300}
                 fgColor="#1A202C"
                 bgColor="rgba(58, 72, 100, 1)"
