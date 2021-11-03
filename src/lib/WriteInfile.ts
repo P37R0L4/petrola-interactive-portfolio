@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 
 // recruiters in JSON file for simplicity, store in a db for production applications
-const jsonFile = path.join('samples', 'accessData.json');
+const jsonFile = path.join('/samples', 'accessData.json');
 
 let recruiters = JSON.parse(fs.readFileSync(jsonFile, 'utf-8'));
 
