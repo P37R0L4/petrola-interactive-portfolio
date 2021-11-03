@@ -23,9 +23,7 @@
   ],
   "extends": [
     "airbnb",
-    "prettier",
-    "next",
-    "next/core-web-vitals"
+    "prettier"
   ],
   "rules": {
     "prettier/prettier": "error",
