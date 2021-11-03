@@ -1,0 +1,26 @@
+{
+  "react": {
+    "since": "2015",
+    "knowledge": 5
+  },
+  "typescript": {
+    "since": "2015",
+    "knowledge": 5
+  },
+  "node": {
+    "since": "2015",
+    "knowledge": 5
+  },
+  "sass": {
+    "since": "2016",
+    "knowledge": 5
+  },
+  "swift": {
+    "since": "2021",
+    "knowledge": 5
+  },
+  "graphql": {
+    "since": "2021",
+    "knowledge": 5
+  }
+}
