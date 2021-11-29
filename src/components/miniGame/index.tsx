@@ -1,5 +1,6 @@
 import { Box, Text, HStack } from '@chakra-ui/layout';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
+import { RecruitersContext } from '../../contexts/RecruitersContextProvider';
 
 interface ContentMinigameProps {
   position: number;
@@ -16,15 +17,13 @@ export function ContentMinigame({ position }: ContentMinigameProps) {
   const [ballBositionX, setBallBositionX] = useState(50.5);
   const [ballBositionY, setBallBositionY] = useState(50.5);
   const [invertX, setInvertX] = useState(1);
-  const [invertY, setInvertY] = useState(1);
 
   const [randomY, setRandomY] = useState(1);
-  const [randomX, setRandomX] = useState(1);
 
   const [pointsEminen, setPointsEminen] = useState(0);
   const [pointsPlayer, setPointsPlayer] = useState(0);
 
-  // const [angle, setAngle] = useState(50);
+  const { setMinigamePoints } = useContext(RecruitersContext);
 
   function getRandomArbitrary(min: number, max: number) {
     return Math.random() * (max - min) + min;
@@ -47,13 +46,15 @@ export function ContentMinigame({ position }: ContentMinigameProps) {
   }, [positionEminen]);
 
   useEffect(() => {
+    setMinigamePoints(pointsPlayer);
+  }, [pointsPlayer]);
+
+  useEffect(() => {
     setTimeout(() => {
       if (ballBositionX >= 97) {
         setInvertX(-1);
-        setRandomX(getRandomArbitrary(-1, -3));
       } else if (ballBositionX <= 3) {
         setInvertX(1);
-        setRandomX(getRandomArbitrary(1, 3));
       }
 
       if (ballBositionY >= 97) {

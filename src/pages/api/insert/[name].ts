@@ -30,7 +30,7 @@ export default async function handler(
       `,
     });
 
-    const id = data.createRecruiter._id;
+    const id = await data.createRecruiter._id;
     await client.mutate({
       mutation: gql`
         mutation {

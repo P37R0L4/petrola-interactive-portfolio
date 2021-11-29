@@ -31,7 +31,7 @@ export default function Profile() {
   const [scroolState, setScroolState] = useState(0);
   const [minigameStarted, setMinigameStarted] = useState(0);
   const [minigamePosition, setMinigamePosition] = useState(0);
-  const { id } = useContext(RecruitersContext);
+  const { id, minigamePoints } = useContext(RecruitersContext);
 
   const { setColorMode } = useColorMode();
 
@@ -63,6 +63,7 @@ export default function Profile() {
       push('/home');
       clearInterval(intervalMiniGame);
     } else {
+      fetch(`/api/update-game-finished/${id}/${minigamePoints}`);
       intervalMiniGame = setInterval(async () => {
         const response = await fetch(`/api/get-one/${id}`);
         const arrJson = await response.json();
