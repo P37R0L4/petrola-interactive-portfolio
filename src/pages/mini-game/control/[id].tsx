@@ -8,6 +8,7 @@ export default function Control() {
   const { asPath } = useRouter();
   const { setColorMode } = useColorMode();
   const [started, setStarted] = useState(false);
+  const [position, setposition] = useState(50);
 
   const { query } = useRouter();
 
@@ -23,14 +24,18 @@ export default function Control() {
   }
 
   async function Move(toMove: number) {
-    await fetch(`/api/game-command/position/${query.id}/${toMove}`);
+    const response = await fetch(
+      `/api/game-command/position/${query.id}/${toMove}`
+    );
+    const data = await response.json();
+    setposition(data.updateGame.position);
   }
 
   return (
     <VStack w="full" h="90vh" position="absolute" flex={1} p={10}>
       <Center
         onClick={() => {
-          Move(-25);
+          Move(position + -25);
         }}
         as={Button}
         bg="brand.100"
@@ -56,7 +61,7 @@ export default function Control() {
 
       <Center
         onClick={() => {
-          Move(25);
+          Move(position + 25);
         }}
         as={Button}
         bg="brand.200"

@@ -2,19 +2,21 @@ import { Flex, VStack, useColorMode, Text } from '@chakra-ui/react';
 import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
 import { useContext, useEffect, useState } from 'react';
-import { dehydrate } from 'react-query';
 import { UnlockedScroll } from '../components/animated/lock';
 import { Layout } from '../components/Layout';
 import { TitleLikeCode } from '../components/TitleLikecode';
 import { TitleLikeFunction } from '../components/TitleLikeFunction';
-import { getAccessData, useAccessData } from '../services/hooks/useAccessData';
 import { RecruitersContext } from '../contexts/RecruitersContextProvider';
-import { queryClient } from '../services/queryClient';
+import gql from 'graphql-tag';
+import { client } from '../lib/apollo-client';
 
-export default function WhosVisited() {
+interface WhosVisitedProps {
+  data: acessData;
+}
+
+export default function WhosVisited({ data }: WhosVisitedProps) {
   const { push } = useRouter();
   const { id } = useContext(RecruitersContext);
-  const { data } = useAccessData();
   const { setColorMode } = useColorMode();
   const [queryPrefetched, setQueryPrefetched] = useState(data);
 
@@ -61,6 +63,7 @@ export default function WhosVisited() {
 
             return (
               <VStack
+                key={`page-visited-${index}`}
                 left={isEven ? '60vw' : '20vw'}
                 top={`${60 * (index + 1)}vh`}
                 position="absolute"
@@ -102,7 +105,8 @@ export default function WhosVisited() {
                     show={true}
                     title={`Give me ${item.grade}`}
                     subtitle={`<Visited in ${convertTimestamp(item.data)} />`}
-                    text={`<He get's ${item.game.minigamePoints} Points in minigame />`}
+                    // text={`<He get's ${item.game.minigamePoints} Points in minigame />`}
+                    text={`<test />`}
                   />
                   <Text fontSize={25} color="gray" m={7}>
                     <span
@@ -124,10 +128,23 @@ export default function WhosVisited() {
 }
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  await queryClient.prefetchQuery('getAccessData', getAccessData);
+  const { data } = await client.query({
+    query: gql`
+      query {
+        recruiters {
+          _id
+          comment
+          data
+          grade
+          name
+        }
+      }
+    `,
+  });
+
   return {
     props: {
-      dehydratedState: dehydrate(queryClient),
+      data: data.recruiters,
     },
   };
 };

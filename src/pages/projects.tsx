@@ -11,7 +11,6 @@ import { RecruitersContext } from '../contexts/RecruitersContextProvider';
 export default function Projects() {
   const { asPath, push } = useRouter();
   const { id } = useContext(RecruitersContext);
-  const [scroolState, setScroolState] = useState(0);
   const [unlockFade, setUnlockFade] = useState(false);
   const { setColorMode } = useColorMode();
 
@@ -21,8 +20,6 @@ export default function Projects() {
     }
 
     if (asPath === `/projects`) {
-      setScroolState(event.currentTarget.scrollLeft);
-      // eslint-disable-next-line no-param-reassign
       event.currentTarget.scrollLeft += event.deltaY + event.deltaX;
     }
 

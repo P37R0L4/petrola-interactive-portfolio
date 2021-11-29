@@ -1,9 +1,11 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
+import gql from 'graphql-tag';
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { recruitersRepo } from '../../lib/WriteInfile';
+import { client } from '../../lib/apollo-client';
 
 type Data = {
-  status: number;
+  id?: string;
+  error?: any;
 };
 
 export default async function updateGrade(
@@ -12,9 +14,24 @@ export default async function updateGrade(
 ) {
   if (req.method === 'POST') {
     const { id, comment, grade } = req.body;
-    await recruitersRepo.update(id, 'grade', grade);
-    await recruitersRepo.update(id, 'comment', comment);
+    try {
+      const { data } = await client.mutate({
+        mutation: gql`
+          mutation {
+            updateRecruiter(
+              id: "${id}"
+              values: { comment: "${comment}", grade: ${grade} }
+            ) {
+              _id
+            }
 
-    res.status(200).json({ status: 0 });
+          }
+        `,
+      });
+
+      res.status(200).json({ id: data.updateRecruiter._id });
+    } catch (error) {
+      res.status(200).json({ error });
+    }
   }
 }

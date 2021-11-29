@@ -1,7 +1,4 @@
 import { GetServerSideProps } from 'next';
-import { dehydrate } from 'react-query';
-import { getAccessData, useAccessData } from '../services/hooks/useAccessData';
-import { queryClient } from '../services/queryClient';
 import { useQueryClient } from 'react-query';
 
 import { Layout } from '../components/Layout';
@@ -27,12 +24,17 @@ import { useRouter } from 'next/router';
 import { TitleLikeCode } from '../components/TitleLikecode';
 import { TitleLikeFunction } from '../components/TitleLikeFunction';
 import { RecruitersContext } from '../contexts/RecruitersContextProvider';
+import gql from 'graphql-tag';
+import { client } from '../lib/apollo-client';
 
 let lockWheel = true;
 let timer: any = null;
 
-export default function Home() {
-  const { data } = useAccessData();
+interface HomeProps {
+  data: any;
+}
+
+export default function Home({ data }: HomeProps) {
   const [queryPrefetched, setQueryPrefetched] = useState(data);
 
   const { setColorMode } = useColorMode();
@@ -81,11 +83,8 @@ export default function Home() {
       setName(nameRecruiter);
 
       const response = await fetch(`/api/insert/${nameRecruiter}`);
-      const arrJson: any = await response.json();
-      setId(arrJson[arrJson.length - 1].id);
-
-      query.invalidateQueries('getAccessData');
-      setQueryPrefetched(data);
+      const arrJson = await response.json();
+      setId(arrJson.createRecruiter._id);
     } else {
       setLockLineAux(true);
       debounceLock();
@@ -404,11 +403,20 @@ export default function Home() {
 }
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  await queryClient.prefetchQuery('getAccessData', getAccessData);
+  const { data } = await client.query({
+    query: gql`
+      query {
+        recruiters {
+          _id
+          name
+        }
+      }
+    `,
+  });
 
   return {
     props: {
-      dehydratedState: dehydrate(queryClient),
+      data: data.recruiters,
     },
   };
 };

@@ -24,6 +24,8 @@ import { RecruitersContext } from '../contexts/RecruitersContextProvider';
 import Draggable from 'react-draggable';
 import { ContentMinigame } from '../components/miniGame';
 
+let intervalMiniGame: any;
+
 export default function Profile() {
   const { asPath, push } = useRouter();
   const [scroolState, setScroolState] = useState(0);
@@ -57,18 +59,18 @@ export default function Profile() {
     var element = document.scrollingElement || document.documentElement;
     element.addEventListener('wheel', transformScroll);
 
-    let intervalMiniGame = setInterval(async () => {
-      if (id) {
+    if (!id) {
+      push('/home');
+      clearInterval(intervalMiniGame);
+    } else {
+      intervalMiniGame = setInterval(async () => {
         const response = await fetch(`/api/get-one/${id}`);
         const arrJson = await response.json();
 
-        setMinigameStarted(arrJson.game.started ?? false);
-        setMinigamePosition(arrJson.game.position ?? 50);
-      } else {
-        push('/home');
-        clearInterval(intervalMiniGame);
-      }
-    }, 300);
+        setMinigameStarted(arrJson.game.started);
+        setMinigamePosition(arrJson?.game?.position);
+      }, 1000);
+    }
 
     return () => {
       element.removeEventListener('wheel', transformScroll);
@@ -353,7 +355,7 @@ export default function Profile() {
             >
               <QRCode
                 title="P37R0L4 mini game"
-                value={`https://petrola-interactive-portfolio-3zx98yggv-petrola-portfolio.vercel.app/mini-game/control/${id}`}
+                value={`http://192.168.1.120:3000/mini-game/control/${id}`}
                 size={300}
                 fgColor="#1A202C"
                 bgColor="rgba(58, 72, 100, 1)"
@@ -373,8 +375,8 @@ export default function Profile() {
           <Draggable>
             <Center
               transition="0.1s"
-              display={minigameStarted === 1 ? 'flex' : 'none'}
-              opacity={minigameStarted === 1 ? 1 : 0}
+              display={minigameStarted ? 'flex' : 'none'}
+              opacity={minigameStarted ? 1 : 0}
               left="-45vw"
               top="0vh"
               zIndex="tooltip"

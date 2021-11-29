@@ -65,7 +65,7 @@ export function ContentMinigame({ position }: ContentMinigameProps) {
       if (lockpointEminem) {
         if (
           ballBositionX <= 3 &&
-          ((ballBositionY > 0 && ballBositionY < position - 20) ||
+          ((ballBositionY > 0 && ballBositionY < position - 25) ||
             (ballBositionY > position && ballBositionY < 100))
         ) {
           setPointsEminen(pointsEminen + 1);
@@ -79,7 +79,7 @@ export function ContentMinigame({ position }: ContentMinigameProps) {
       if (lockpointPlayer) {
         if (
           ballBositionX >= 97 &&
-          ((ballBositionY > 0 && ballBositionY < positionEminen - 20) ||
+          ((ballBositionY > 0 && ballBositionY < positionEminen - 25) ||
             (ballBositionY > positionEminen && ballBositionY < 100))
         ) {
           setPointsPlayer(pointsPlayer + 1);
@@ -143,7 +143,7 @@ export function ContentMinigame({ position }: ContentMinigameProps) {
         opacity={blink ? 0 : 1}
         position="relative"
         top={`calc(${position}% - 20%)`}
-        h="20%"
+        h="25%"
         w={3}
         bg="brand.100"
         rounded="sm"
@@ -164,7 +164,7 @@ export function ContentMinigame({ position }: ContentMinigameProps) {
         opacity={blinkEminen ? 0 : 1}
         position="relative"
         top={`calc(${positionEminen}% - 20%)`}
-        h="20%"
+        h="25%"
         w={3}
         bg="brand.200"
         rounded="sm"
