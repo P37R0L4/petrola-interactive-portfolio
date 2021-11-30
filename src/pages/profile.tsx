@@ -356,7 +356,7 @@ export default function Profile() {
             >
               <QRCode
                 title="P37R0L4 mini game"
-                value={`http://192.168.1.120:3000/mini-game/control/${id}`}
+                value={`${process.env.NEXT_PUBLIC_APP_SERVER}/mini-game/control/${id}`}
                 size={300}
                 fgColor="#1A202C"
                 bgColor="rgba(58, 72, 100, 1)"

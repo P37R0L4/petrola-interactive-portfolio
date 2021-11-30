@@ -1,6 +1,6 @@
 import { ApolloClient, InMemoryCache } from '@apollo/client';
 
 export const client = new ApolloClient({
-  uri: process.env.API_SERVER,
+  uri: process.env.NEXT_PUBLIC_API_SERVER,
   cache: new InMemoryCache(),
 });
