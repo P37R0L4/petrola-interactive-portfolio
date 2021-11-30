@@ -18,15 +18,13 @@ export default function Control() {
 
   async function startGame() {
     const hasStarted: number = started ? 0 : 1;
-    await fetch(`/api/game-command/started/${query.id}/${hasStarted}`);
+    await fetch(`/api/game-start/${query.id}/${hasStarted}`);
 
     setStarted(hasStarted === 1);
   }
 
   async function Move(toMove: number) {
-    const response = await fetch(
-      `/api/game-command/position/${query.id}/${toMove}`
-    );
+    const response = await fetch(`/api/game-move/${query.id}/${toMove}`);
     const data = await response.json();
     setposition(data.updateGame.position);
   }

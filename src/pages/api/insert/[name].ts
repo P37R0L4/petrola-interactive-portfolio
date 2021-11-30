@@ -21,10 +21,6 @@ export default async function handler(
         mutation {
           createRecruiter(values: { name: "${name}", data: "${timestamp}", grade: 0, comment: "" }) {
             _id
-            name
-            comment
-            data
-            grade
           }
         }
       `,
@@ -38,9 +34,6 @@ export default async function handler(
             data: { minigamePoints: 0, position: 50, started: false,  idRecruiter: "${id}"}
           ) {
             _id
-            minigamePoints
-            position
-            started
           }
         }
       `,
