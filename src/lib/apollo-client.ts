@@ -1,6 +1,6 @@
 import { ApolloClient, InMemoryCache } from '@apollo/client';
 
 export const client = new ApolloClient({
-  uri: process.env.NEXT_PUBLIC_API_SERVER,
+  uri: `https://recruiters-api.herokuapp.com`,
   cache: new InMemoryCache(),
 });
